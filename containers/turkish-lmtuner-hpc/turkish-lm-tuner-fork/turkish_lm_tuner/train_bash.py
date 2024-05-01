@@ -34,7 +34,7 @@ if __name__ == "__main__":
     parser.add_argument("--model_keyword", help="""It can be any of the following: BERTurk, mT5, mBART, TURNA, kanarya2b and kanarya750m""",
                         type = str, default = "TURNA")
     
-    parser.add_argument("--max_input_length", help="""It determines the maximum input length, longer inputs will be truncated""", type = int, default = 764)
+    parser.add_argument("--max_input_length", help="""It determines the maximum input length, longer inputs will be truncated""", type = int, default = 256)
     
     parser.add_argument("--max_target_length", help="""It determines the maximum target length, it is also equal to the max new tokens in the generation""",
                         type = int, default = 128)
