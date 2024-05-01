@@ -6,14 +6,14 @@ Created on Wed May  1 13:09:58 2024
 """
 
 import argparse, sys
-from turkish_lm_tuner import DatasetProcessor
+from . import DatasetProcessor
 import numpy as np
 import pandas as pd
 import os
 import evaluate
 import torch
 import gc
-from turkish_lm_tuner.trainer import TrainerForClassification, TrainerForConditionalGeneration
+from .trainer import TrainerForClassification, TrainerForConditionalGeneration
 from datasets import Dataset
 
 if __name__ == "__main__":
