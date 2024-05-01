@@ -1,6 +1,6 @@
 from transformers import AutoModelForSeq2SeqLM, AutoConfig, AutoModelForSequenceClassification, AutoModelForTokenClassification
-from .dataset_processor import DatasetProcessor
-from .t5_classifier import T5ForClassification
+from dataset_processor import DatasetProcessor
+from t5_classifier import T5ForClassification
 from dataclasses import dataclass
 import torch
 
