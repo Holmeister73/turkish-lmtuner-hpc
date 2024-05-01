@@ -11,11 +11,11 @@ from transformers import (
 )
 from transformers.optimization import Adafactor, AdafactorSchedule, AdamW
 from transformers import DataCollatorForTokenClassification
-from .evaluator import (
+from evaluator import (
     EvaluatorForClassification,
     EvaluatorForConditionalGeneration
 )
-from .t5_classifier import T5ForClassification
+from t5_classifier import T5ForClassification
 import json 
 import os
 import torch
