@@ -1,14 +1,14 @@
-name: Build LLAMAFACTORY-HPC image
+name: Build TurkishLMTuner-HPC image
 on:
   workflow_dispatch:
   push:
     paths:
-      - containers/llama-factory-hpc/Dockerfile
-      - .github/workflows/llamafactory-hpc.yml # Self-trigger
+      - containers/turkish-lmtuner-hpc/Dockerfile
+      - .github/workflows/turkishlmtuner-hpc.yml # Self-trigger
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: holmeister73/llamafactory-hpc
+  IMAGE_NAME: holmeister73/turkish-lmtuner-hpc
   VERSION: latest
 
 jobs:
@@ -32,7 +32,7 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v4
         with:
-          context: containers/llama-factory-hpc
+          context: containers/turkish-lmtuner-hpc
           build-args: |
             VERSION=${{ env.VERSION }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
