@@ -31,6 +31,6 @@ RUN /opt/python3/venv/base/bin/python3 -m pip install --no-cache-dir -r /opt/pyt
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-COPY LLaMA-Factory .
+COPY turkish-lm-tuner-fork .
 # Set entrypoint to bash
 ENTRYPOINT ["/entrypoint.sh"]
