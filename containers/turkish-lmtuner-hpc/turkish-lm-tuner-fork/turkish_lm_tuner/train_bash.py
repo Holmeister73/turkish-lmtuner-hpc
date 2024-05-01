@@ -135,7 +135,7 @@ if __name__ == "__main__":
     
     if task_format == "classification":
         for i in range(1):  #normalde burası 3 olacak 3 run için
-          for lr in learning_rates[model_keyword][1]:  #normalde burada [1] olmayacak farklı learning rateler için
+          for lr in learning_rates[model_keyword][1:2]:  #normalde burada [1:2] olmayacak farklı learning rateler için
             optimizer_params["lr"] = lr
             model_trainer = TrainerForClassification(
               model_name=model_name, task=task,
@@ -158,7 +158,7 @@ if __name__ == "__main__":
             
     elif task_format == "conditional_generation":
         for i in range(1):  #normalde burası 3 olacak 3 run için
-          for lr in learning_rates[model_keyword][1]:  #normalde burada [1] olmayacak farklı learning rateler için
+          for lr in learning_rates[model_keyword][1:2]:  #normalde burada [1:2] olmayacak farklı learning rateler için
             optimizer_params["lr"] = lr
             model_trainer = TrainerForConditionalGeneration(
               model_name=model_name, task=task,
