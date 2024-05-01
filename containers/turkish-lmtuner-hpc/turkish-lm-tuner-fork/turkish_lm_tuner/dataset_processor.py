@@ -9,7 +9,7 @@ formatter = logging.Formatter('%(levelname)s - %(asctime)s - %(name)s: %(message
 stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 
-from .tr_datasets import initialize_dataset
+from tr_datasets import initialize_dataset
 
 class DatasetProcessor:
     """
