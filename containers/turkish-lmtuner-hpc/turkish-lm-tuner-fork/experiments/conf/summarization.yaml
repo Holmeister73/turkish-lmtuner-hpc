@@ -1,0 +1,14 @@
+defaults:
+  - default_cond_gen
+
+dataset_name: tr_news
+task: summarization
+max_input_length: 768
+max_target_length: 128
+training_params:
+  per_device_train_batch_size: 4 # 4 for ultramarine
+  per_device_eval_batch_size: 4 # 4 for ultramarine
+  output_dir: /finetuned-models/turna/summarization/tr_news
+  bf16: true
+
+

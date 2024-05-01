@@ -1,0 +1,11 @@
+task_mode: '' # '[S2S] ', '[NLU] ', '[NLG] '
+test_params:
+  remove_unused_columns: False
+  push_to_hub: False
+  report_to: wandb
+  do_train: False
+  do_predict: True
+generation_params:
+  early_stopping: true
+  num_beams: 4
+dataset_loc: ""
