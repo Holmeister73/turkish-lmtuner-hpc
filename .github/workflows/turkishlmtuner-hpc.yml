@@ -1,10 +1,10 @@
-name: Build LLAMAFACTORY-HPC image
+name: Build TurkishLMTuner-HPC image
 on:
   workflow_dispatch:
   push:
     paths:
-      - containers/llama-factory-hpc/Dockerfile
-      - .github/workflows/llamafactory-hpc.yml # Self-trigger
+      - containers/turkishlmtuner-hpc/Dockerfile
+      - .github/workflows/turkishlmtuner-hpc.yml # Self-trigger
 
 env:
   REGISTRY: ghcr.io
