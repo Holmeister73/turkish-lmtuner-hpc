@@ -217,7 +217,7 @@ class TrainerForClassification(BaseModelTrainer):
                   model.config.pad_token_id = AutoTokenizer.from_pretrained(self.model_name).pad_token_id
                 return model
     
-    def train_and_evaluate(self, train_dataset, eval_dataset, test_dataset):
+    def train_and_evaluate(self, train_dataset, eval_dataset, test_dataset, early_stopping_patience = 3):
         logger.info("Training in classification mode")
 
         if self.task in ['ner', 'pos_tagging']:
@@ -249,7 +249,7 @@ class TrainerForClassification(BaseModelTrainer):
             optimizers=(optimizer, lr_scheduler),
             tokenizer=tokenizer,
             data_collator=data_collator,
-            callbacks = [EarlyStoppingCallback(early_stopping_patience=3)]
+            callbacks = [EarlyStoppingCallback(early_stopping_patience=early_stopping_patience)]
         )
         trainer.train()
         results = trainer.evaluate(test_dataset)
