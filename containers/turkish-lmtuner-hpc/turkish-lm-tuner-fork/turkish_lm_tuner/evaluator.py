@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 import os
 import logging
+from datasets import Dataset
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -83,7 +84,10 @@ class EvaluatorForClassification(BaseEvaluator):
         if self.task == "semantic_similarity":
             preds = preds.flatten()
         else:
-            preds = np.argmax(preds, axis=-1)
+            if(isinstance(preds,tuple)):
+              preds = np.argmax(preds[0], axis = -1)
+            else:
+              preds = np.argmax(preds, axis=-1)
 
         logger.info('Postprocessing..')
 
@@ -106,7 +110,6 @@ class EvaluatorForClassification(BaseEvaluator):
             })
 
         predictions.to_csv(os.path.join(self.test_params['output_dir'], 'predictions.csv'), index=False)
-
         logger.info("Result: %s", result)
 
         return result
@@ -179,7 +182,6 @@ class EvaluatorForConditionalGeneration(BaseEvaluator):
              'Label': processed_labels})
 
         predictions.to_csv(os.path.join(self.test_params['output_dir'], 'predictions.csv'), index=False)
-
         logger.info("Computing metrics")
         logger.info("Decoded predictions: %s", processed_preds[:5])
         logger.info("Decoded labels: %s", processed_labels[:5])

@@ -729,6 +729,44 @@ class SentimentTweetDataset(ClassificationDataset):
         #dataset = datasets.load_dataset(self.dataset_loc, data_files=self.dataset_info, split=split)
         print("Deduplicating data")
         return super().deduplicate_data(dataset, "text")
+    
+class EmotionSingleDataset(ClassificationDataset):
+    DATASET_NAME = "emotion_single"
+    DATASET_INFO = "Holmeister/emotion_single_instruction"
+    IN_LABEL_DICT = {"Şaşkınlık":0, "Korku": 1, "Üzüntü": 2, "Kızgınlık": 3, "Neşe": 4}
+
+    def __init__(self, dataset_name=None):
+        super().__init__(dataset_name)
+
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+            output = [self.IN_LABEL_DICT[ex] for ex in examples["emotion"]]
+            return {"input_text": examples["instruction"], "label": output}
+        output = [self.IN_LABEL_DICT[ex] for ex in examples["emotion"]]
+        return {"input_text": examples["instruction"], "target_text": output}
+    def postprocess_data(self, examples):
+        return examples
+
+class EmotionMultiDataset(ClassificationDataset):
+    DATASET_NAME = "emotion_multi"
+    DATASET_INFO = "Holmeister/emotion_multi_instruction"
+    IN_LABEL_DICT = {"Şaşkınlık":0, "Korku": 1, "Üzüntü": 2, "Kızgınlık": 3, "Neşe": 4}
+
+    def __init__(self, dataset_name=None):
+        super().__init__(dataset_name)
+
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+          output = [self.IN_LABEL_DICT[ex] for ex in examples["emotion"]]
+          return {"input_text": examples["instruction"], "label": output}
+        output = [self.IN_LABEL_DICT[ex] for ex in examples["emotion"]]
+        return {"input_text": examples["instruction"], "target_text": output}
+
+    def postprocess_data(self, examples):
+        return examples
+    
 
 DATASET_MAPPING_NAMES = [
         ("tr_news", "TRNewsDataset"),
@@ -754,6 +792,8 @@ DATASET_MAPPING_NAMES = [
         ("ttc4900", "TTC4900Dataset"),
         ("tr_product_reviews", "ProductDataset"),
         ("17bintweet_sentiment", "SentimentTweetDataset"),
+        ("emotion_single", "EmotionSingleDataset"),
+        ("emotion_multi", "EmotionMultiDataset")
     ]
 
 def str_to_class(classname):
