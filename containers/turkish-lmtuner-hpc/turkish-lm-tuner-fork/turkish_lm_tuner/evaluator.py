@@ -5,7 +5,7 @@ from transformers import (
     EvalPrediction
 )
 
-from .metrics import load_task_metrics
+from metrics import load_task_metrics
 import pandas as pd
 import numpy as np
 import os
