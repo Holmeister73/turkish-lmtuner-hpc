@@ -85,7 +85,6 @@ class EvaluatorForClassification(BaseEvaluator):
             preds = preds.flatten()
         else:
             if(isinstance(preds,tuple)):
-              print(preds[1])
               preds = np.argmax(preds[0], axis = -1)
                 
             else:
