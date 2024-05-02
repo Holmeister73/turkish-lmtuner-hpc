@@ -21,4 +21,3 @@ sacrebleu
 rouge-score
 nltk
 seqeval
-protobuf
