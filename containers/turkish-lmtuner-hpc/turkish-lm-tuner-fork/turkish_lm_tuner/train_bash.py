@@ -132,7 +132,7 @@ if __name__ == "__main__":
       return results_df
     
     learning_rates = {"BERTurk": [1e-5, 2e-5, 4e-5] , "mT5": [5e-5, 1e-4, 2e-4], "mBART": [1e-5, 2e-5, 4e-5] , "TURNA": [5e-4, 1e-3, 2e-3],
-                       "kanarya2b": [1e-5, 2e-5, 4e-5] , "kanarya750m": [2e-6, 4e-6, 8e-6] }
+                       "kanarya2b": [1e-5, 2e-5, 4e-5] , "kanarya750m": [4e-6, 8e-6, 2e-5] }
     
     if task_format == "classification":
         for i in range(1):  #normalde burası 3 olacak 3 run için
