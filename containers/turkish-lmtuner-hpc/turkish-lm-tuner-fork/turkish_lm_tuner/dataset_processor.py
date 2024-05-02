@@ -42,7 +42,10 @@ class DatasetProcessor:
         self.task = task
         self.task_format = task_format
         self.task_mode = task_mode
-        self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
+        if tokenizer_name == "google/mt5-large":
+            self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name, use_fast = False)
+        else:
+            self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
         self.max_input_length = max_input_length
         self.max_target_length = max_target_length
         self.dataset_loc = dataset_loc
