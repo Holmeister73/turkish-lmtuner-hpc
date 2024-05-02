@@ -56,7 +56,6 @@ if __name__ == "__main__":
     parser.add_argument("--eval_do_concat_batches", help = "whether to do nested concatenation for predictions during evaluation, it should be True normally except kanarya", default = True)
     args=parser.parse_args()
     
-    print(f"Dict format: {vars(args)}")
     
     model_name_dict = {"BERTurk": "dbmdz/bert-base-turkish-cased", "mT5": "google/mt5-large", "mBART": "facebook/mbart-large-cc25", "TURNA": "boun-tabi-LMG/TURNA",
                        "kanarya2b": "asafaya/kanarya-2b", "kanarya750m": "asafaya/kanarya-750m"}
