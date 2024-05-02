@@ -52,7 +52,8 @@ if __name__ == "__main__":
     parser.add_argument("--per_device_eval_batch_size", help="""per device batch size during evaluation""", type = int, default = 8)
     
     parser.add_argument("--hf_token_hub", help="""token for huggingface""",  default = None)
-    
+
+    parser.add_argument("--eval_do_concat_batches", help = "whether to do nested concatenation for predictions during evaluation, it should be True normally except kanarya", default = True)
     args=parser.parse_args()
     
     print(f"Dict format: {vars(args)}")
@@ -97,7 +98,8 @@ if __name__ == "__main__":
         "save_steps": int(np.ceil(len(train_dataset)/(args.per_device_train_batch_size*3))),
         'logging_steps': int(np.ceil(len(train_dataset)/args.per_device_train_batch_size)),  #böldüğümüz sayı batch size'a eşit
         #'predict_with_generate': True,
-        "report_to": "none"
+        "report_to": "none",
+        "eval_do_concat_batches": args.eval_do_concat_batches
     }
     optimizer_parameters = {"BERTurk": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "mT5": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
                             "mBART": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "TURNA": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
