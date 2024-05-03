@@ -135,7 +135,8 @@ class TrainerForConditionalGeneration(BaseModelTrainer):
         logger.info("Training in conditional generation mode")
 
         model = self.initialize_model()
-
+        if self.model_name == "asafaya/kanarya-750m":
+            model.config.use_cache = False
         if self.optimizer_params is not None:
             logger.info("Using optimizers with constant parameters")
             optimizer, lr_scheduler = self.create_optimizer(model, train_len = len(train_dataset))
@@ -235,6 +236,8 @@ class TrainerForClassification(BaseModelTrainer):
         logger.info("Training arguments: %s", training_args)
 
         model = self.initialize_model()
+        if self.model_name == "asafaya/kanarya-750m":
+            model.config.use_cache = False
         if self.optimizer_params is not None:
             logger.info("Using optimizers with constant parameters")
             optimizer, lr_scheduler = self.create_optimizer(model, train_len = len(train_dataset))
@@ -254,8 +257,6 @@ class TrainerForClassification(BaseModelTrainer):
             callbacks = [EarlyStoppingCallback(early_stopping_patience=early_stopping_patience)]
         )
         trainer.train()
-        if self.model_name == "asafaya/kanarya-750m":
-            trainer.model.config.use_cache = False
         results = trainer.evaluate(test_dataset)
         
         logger.info("Results: %s", results)
