@@ -145,6 +145,7 @@ if __name__ == "__main__":
               model_save_path=run_name,
               num_labels = num_labels,
               postprocess_fn=dataset_processor.dataset.postprocess_data)
+            print(model_trainer.eval_do_concat_batches)
             trainer, model = model_trainer.train_and_evaluate(train_dataset, eval_dataset, test_dataset, early_stopping_patience = early_stopping_patience)
             with torch.no_grad():
               del model_trainer
