@@ -779,20 +779,30 @@ class ProductReviewsCLSDataset(ClassificationDataset):
         else:
             self.dataset_name = self.DATASET_NAME
         
-        if "5" in self.dataset_name:
+        if self.dataset_name == "product_reviews_cls_5_instruction":
             self.dataset_info = "Holmeister/product_reviews_5_instruction"
-        elif "1" in self.dataset_name:
+        elif self.dataset_name == "product_reviews_cls_1_instruction":
             self.dataset_info = "Holmeister/product_reviews_1_instruction"
-        else:
+        elif self.dataset_name == "product_reviews_cls_no_instruction":
             self.dataset_info = "Holmeister/product_reviews_no_instruction"
+        else:
+            self.dataset_info = self.DATASET_INFO
 
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
         if skip_output_processing:
-          output = [self.IN_LABEL_DICT[ex] for ex in examples["output"]]
-          return {"input_text": examples["prompt"], "label": output}
-        output = [self.IN_LABEL_DICT[ex] for ex in examples["output"]]
-        return {"input_text": examples["prompt"], "target_text": output}
+            output = [self.IN_LABEL_DICT[ex] for ex in examples["output"]]
+            if self.dataset_name == "product_reviews_cls_5_instruction" or self.dataset_name == "product_reviews_cls_1_instruction":
+                return {"input_text": examples["prompt"], "label": output}
+            else:
+                return {"input_text": examples["input"], "label": output}
+        else:
+            output = [self.IN_LABEL_DICT[ex] for ex in examples["output"]]
+            if self.dataset_name == "product_reviews_cls_5_instruction" or self.dataset_name == "product_reviews_cls_1_instruction":
+                return {"input_text": examples["prompt"], "target_text": output}
+            else:
+                return {"input_text": examples["input"], "target_text": output}
+            
 
     def postprocess_data(self, examples):
         return examples
