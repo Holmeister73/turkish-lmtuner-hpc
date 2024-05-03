@@ -54,6 +54,9 @@ if __name__ == "__main__":
     parser.add_argument("--hf_token_hub", help="""token for huggingface""",  default = None)
 
     parser.add_argument("--eval_do_concat_batches", help = "whether to do nested concatenation for predictions during evaluation, it should be True normally except kanarya", default = True)
+
+    parser.add_argument("--eval_per_epoch", help = "How many times evaluation should be done in an epoch", type = int, default = 3)
+      
     args=parser.parse_args()
     
     
@@ -82,7 +85,7 @@ if __name__ == "__main__":
     test_dataset = dataset_processor.load_and_preprocess_data(split="test")
     
     early_stopping_patience = args.early_stopping_patience
-    
+    eval_per_epoch = args.eval_per_epoch
     pred_hf_repo_name = "Holmeister/"+run_name+"_predictions"
     hf_token = args.hf_token_hub
     
@@ -93,8 +96,8 @@ if __name__ == "__main__":
         'output_dir': run_name,
         'evaluation_strategy': 'steps',  #bu ve altındaki epoch da olabilir
         'save_strategy': 'steps',
-        "eval_steps": int(np.ceil(len(train_dataset)/(args.per_device_train_batch_size*3))),
-        "save_steps": int(np.ceil(len(train_dataset)/(args.per_device_train_batch_size*3))),
+        "eval_steps": int(np.ceil(len(train_dataset)/(args.per_device_train_batch_size*eval_per_epoch))),
+        "save_steps": int(np.ceil(len(train_dataset)/(args.per_device_train_batch_size*eval_per_epoch))),
         'logging_steps': int(np.ceil(len(train_dataset)/args.per_device_train_batch_size)),  #böldüğümüz sayı batch size'a eşit
         #'predict_with_generate': True,
         "report_to": "none",
