@@ -172,6 +172,8 @@ class TrainerForConditionalGeneration(BaseModelTrainer):
         )
 
         trainer.train()
+        if self.model_name == "asafaya/kanarya-750m":
+            trainer.model.config.use_cache = False
         results = trainer.evaluate(test_dataset)
         
         logger.info("Results: %s", results)
@@ -252,6 +254,8 @@ class TrainerForClassification(BaseModelTrainer):
             callbacks = [EarlyStoppingCallback(early_stopping_patience=early_stopping_patience)]
         )
         trainer.train()
+        if self.model_name == "asafaya/kanarya-750m":
+            trainer.model.config.use_cache = False
         results = trainer.evaluate(test_dataset)
         
         logger.info("Results: %s", results)
