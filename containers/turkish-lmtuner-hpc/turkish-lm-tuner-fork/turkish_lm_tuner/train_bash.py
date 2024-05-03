@@ -31,7 +31,7 @@ if __name__ == "__main__":
     
     parser.add_argument("--num_labels", help="""Number of labels, only used if the task format is classification""", type = int, default = 2)
     
-    parser.add_argument("--model_keyword", help="""It can be any of the following: BERTurk, mT5, mBART, TURNA, kanarya2b and kanarya750m""",
+    parser.add_argument("--model_keyword", help="""It can be any of the following: BERTURK, mT5, mBART, TURNA, kanarya2b and kanarya750m""",
                         type = str, default = "TURNA")
     
     parser.add_argument("--max_input_length", help="""It determines the maximum input length, longer inputs will be truncated""", type = int, default = 256)
@@ -60,7 +60,7 @@ if __name__ == "__main__":
     args=parser.parse_args()
     
     
-    model_name_dict = {"BERTurk": "dbmdz/bert-base-turkish-cased", "mT5": "google/mt5-large", "mBART": "facebook/mbart-large-cc25", "TURNA": "boun-tabi-LMG/TURNA",
+    model_name_dict = {"BERTURK": "dbmdz/bert-base-turkish-cased", "mT5": "google/mt5-large", "mBART": "facebook/mbart-large-cc25", "TURNA": "boun-tabi-LMG/TURNA",
                        "kanarya2b": "asafaya/kanarya-2b", "kanarya750m": "asafaya/kanarya-750m"}
     dataset_name = args.dataset_name
     task = args.task
