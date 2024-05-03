@@ -251,7 +251,7 @@ class TrainerForClassification(BaseModelTrainer):
             data_collator=data_collator,
             callbacks = [EarlyStoppingCallback(early_stopping_patience=early_stopping_patience)]
         )
-        print(trainer.eval_do_concat_batches)
+        print(trainer.args.eval_do_concat_batches)
         trainer.train()
         results = trainer.evaluate(test_dataset)
         
