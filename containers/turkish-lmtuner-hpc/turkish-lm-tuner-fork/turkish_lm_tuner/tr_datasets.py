@@ -768,6 +768,35 @@ class EmotionMultiDataset(ClassificationDataset):
         return examples
     
 
+class ProductReviewsCLSDataset(ClassificationDataset):
+    DATASET_NAME = "product_reviews_cls_no_instruction"
+    DATASET_INFO = "Holmeister/product_reviews_no_instruction"
+    IN_LABEL_DICT = {"pozitif": 1, "negatif": 0}
+
+    def __init__(self, dataset_name=None, dataset_info=None):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+        
+        if "5" in self.dataset_name:
+            self.dataset_info = "Holmeister/product_reviews_5_instruction"
+        elif "1" in self.dataset_name:
+            self.dataset_info = "Holmeister/product_reviews_1_instruction"
+        else:
+            self.dataset_info = "Holmeister/product_reviews_no_instruction"
+
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+          output = [self.IN_LABEL_DICT[ex] for ex in examples["output"]]
+          return {"input_text": examples["prompt"], "label": output}
+        output = [self.IN_LABEL_DICT[ex] for ex in examples["output"]]
+        return {"input_text": examples["prompt"], "target_text": output}
+
+    def postprocess_data(self, examples):
+        return examples
+
 DATASET_MAPPING_NAMES = [
         ("tr_news", "TRNewsDataset"),
         ("tr_news_title", "TRNewsTitleDataset"),
@@ -793,7 +822,10 @@ DATASET_MAPPING_NAMES = [
         ("tr_product_reviews", "ProductDataset"),
         ("17bintweet_sentiment", "SentimentTweetDataset"),
         ("emotion_single", "EmotionSingleDataset"),
-        ("emotion_multi", "EmotionMultiDataset")
+        ("emotion_multi", "EmotionMultiDataset"),
+        ("product_reviews_cls_5_instruction", "ProductReviewsCLSDataset"),
+        ("product_reviews_cls_1_instruction", "ProductReviewsCLSDataset"),
+        ("product_reviews_cls_no_instruction", "ProductReviewsCLSDataset")
     ]
 
 def str_to_class(classname):
