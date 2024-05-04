@@ -103,7 +103,7 @@ if __name__ == "__main__":
         "report_to": "none",
         "eval_do_concat_batches": args.eval_do_concat_batches
     }
-    optimizer_parameters = {"BERTurk": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "mT5": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
+    optimizer_parameters = {"BERTURK": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "mT5": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
                             "mBART": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "TURNA": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
                        "kanarya2b": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "kanarya750m": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }}
     
