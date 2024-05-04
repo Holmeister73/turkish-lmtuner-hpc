@@ -43,6 +43,7 @@ class DatasetProcessor:
         self.task_format = task_format
         self.task_mode = task_mode
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
+        self.tokenizer_name = tokenizer_name
         self.max_input_length = max_input_length
         self.max_target_length = max_target_length
         self.dataset_loc = dataset_loc
