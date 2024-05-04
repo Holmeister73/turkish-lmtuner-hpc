@@ -185,6 +185,15 @@ class DatasetProcessor:
                 )
             else:
                 logger.info("EOS token present, append EOS token")
+                if self.tokenizer_name == "facebook/mbart-large-cc25":
+                    return self.tokenizer(
+                    examples["input_text"],
+                    padding="max_length",
+                    truncation=True,
+                    max_length=self.max_input_length,
+                    return_token_type_ids=False,
+                    return_tensors=return_tensors,
+                )
                 return self.tokenizer(
                     self.append_eos(self.prepend_prefix(examples["input_text"])),
                     padding="max_length",
