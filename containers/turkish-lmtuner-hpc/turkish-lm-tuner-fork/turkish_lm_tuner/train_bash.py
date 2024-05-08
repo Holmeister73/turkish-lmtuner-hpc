@@ -56,7 +56,11 @@ if __name__ == "__main__":
     parser.add_argument("--eval_do_concat_batches", help = "whether to do nested concatenation for predictions during evaluation, it should be True normally except kanarya", default = True)
 
     parser.add_argument("--eval_per_epoch", help = "How many times evaluation should be done in an epoch", type = int, default = 3)
-      
+
+    parser.add_argument("--push_model_to_hub", help = "True if you want the model to be pushed to hub, false otherwise. Default false", default = False)
+    
+    parser.add_argument("--hf_model_repo_name", help = "Repo name for model if push model to hub is true",  default = None)
+   
     args=parser.parse_args()
     
     
