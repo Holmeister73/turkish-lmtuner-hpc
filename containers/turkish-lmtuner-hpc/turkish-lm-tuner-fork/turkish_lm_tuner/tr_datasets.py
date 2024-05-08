@@ -8,7 +8,7 @@ from pathlib import Path
 class BaseDataset:
     DATASET_NAME = None
     DATASET_INFO = None
-    def __init__(self, dataset_name=None, dataset_info=None):
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None):
         if dataset_name is not None:
             self.dataset_name = dataset_name
         else:
@@ -17,7 +17,8 @@ class BaseDataset:
             self.dataset_info = dataset_info
         else:
             self.dataset_info = self.DATASET_INFO
-
+        self.private = private
+        self.token = None
     def load_dataset(self, split=None):
         if type(self.dataset_info) == tuple:
             return datasets.load_dataset(self.dataset_info[0], self.dataset_info[1], split=split)
@@ -807,6 +808,27 @@ class ProductReviewsCLSDataset(ClassificationDataset):
     def postprocess_data(self, examples):
         return examples
 
+class Spell_Correction_Dataset(BaseDataset):
+    DATASET_NAME = "spell_correction"
+    DATASET_INFO = "Holmeister/spell_correction_data"
+
+    def preprocess_data(self, examples):
+        return {"input_text": examples["corrupted_query"], "target_text": examples["clean_query"]}
+    
+    def load_dataset(self, split=None):
+        if type(self.dataset_info) == tuple:
+            if self.private == True:
+                return datasets.load_dataset(self.dataset_info[0], self.dataset_info[1], split=split, token = self.token)
+            else:
+                return datasets.load_dataset(self.dataset_info[0], self.dataset_info[1], split=split)
+        elif type(self.dataset_info) == str:
+            if self.private == True:
+                return datasets.load_dataset(self.dataset_info, split=split, token = self.token)
+            else:
+                return datasets.load_dataset(self.dataset_info, split=split)
+        else:
+            raise NotImplementedError
+
 DATASET_MAPPING_NAMES = [
         ("tr_news", "TRNewsDataset"),
         ("tr_news_title", "TRNewsTitleDataset"),
@@ -835,19 +857,20 @@ DATASET_MAPPING_NAMES = [
         ("emotion_multi", "EmotionMultiDataset"),
         ("product_reviews_cls_5_instruction", "ProductReviewsCLSDataset"),
         ("product_reviews_cls_1_instruction", "ProductReviewsCLSDataset"),
-        ("product_reviews_cls_no_instruction", "ProductReviewsCLSDataset")
+        ("product_reviews_cls_no_instruction", "ProductReviewsCLSDataset"),
+        ("spell_correction", "Spell_Correction_Dataset")
     ]
 
 def str_to_class(classname):
     return getattr(sys.modules[__name__], classname)
 
-def initialize_dataset(dataset_name, dataset_loc=None):
+def initialize_dataset(dataset_name, dataset_loc=None, private = False, token = None):
     for dataset_mapping_name in DATASET_MAPPING_NAMES:
         if dataset_name == dataset_mapping_name[0]:
             dataset_class = str_to_class(dataset_mapping_name[1])
             if dataset_loc != "" and dataset_loc is not None:
                 dataset = dataset_class(dataset_loc)
             else:
-                dataset = dataset_class(dataset_name)
+                dataset = dataset_class(dataset_name, private = private, token = token)
             return dataset
     raise NotImplementedError
