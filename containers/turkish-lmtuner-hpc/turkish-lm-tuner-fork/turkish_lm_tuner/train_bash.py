@@ -92,7 +92,9 @@ if __name__ == "__main__":
     eval_per_epoch = args.eval_per_epoch
     pred_hf_repo_name = "Holmeister/"+run_name+"_predictions"
     hf_token = args.hf_token_hub
-    
+    push_model_to_hub = args.push_model_to_hub
+    hf_model_repo_name = args.hf_model_repo_name
+  
     training_params = {
         'num_train_epochs': args.num_train_epochs,
         'per_device_train_batch_size': args.per_device_train_batch_size,
@@ -153,11 +155,16 @@ if __name__ == "__main__":
               num_labels = num_labels,
               postprocess_fn=dataset_processor.dataset.postprocess_data)
             trainer, model = model_trainer.train_and_evaluate(train_dataset, eval_dataset, test_dataset, early_stopping_patience = early_stopping_patience)
+            
+            if push_model_to_hub == True:
+               trainer.args.hub_model_id = hf_model_repo_name
+               trainer.push_to_hub()
+             
             with torch.no_grad():
-              del model_trainer
-              del trainer
-              del model
-              gc.collect()
+               del model_trainer
+               del trainer
+               del model
+               gc.collect()
             preds_df = pd.read_csv(os.path.join(training_params['output_dir'], 'predictions.csv'))
             predictions_hf = Dataset.from_pandas(preds_df)
             predictions_hf.push_to_hub(pred_hf_repo_name, private = True, token = hf_token)
@@ -177,6 +184,11 @@ if __name__ == "__main__":
               max_target_length = max_target_length,
               postprocess_fn=dataset_processor.dataset.postprocess_data)
             trainer, model = model_trainer.train_and_evaluate(train_dataset, eval_dataset, test_dataset, early_stopping_patience = early_stopping_patience)
+            
+            if push_model_to_hub == True:
+               trainer.args.hub_model_id = hf_model_repo_name
+               trainer.push_to_hub()
+              
             with torch.no_grad():
               del model_trainer
               del trainer
