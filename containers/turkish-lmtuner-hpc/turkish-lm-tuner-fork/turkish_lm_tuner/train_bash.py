@@ -60,7 +60,9 @@ if __name__ == "__main__":
     parser.add_argument("--push_model_to_hub", help = "True if you want the model to be pushed to hub, false otherwise. Default false", default = False)
     
     parser.add_argument("--hf_model_repo_name", help = "Repo name for model if push model to hub is true",  default = None)
-   
+
+    parser.add_argument("--private_data", help = "Should be true if the data is private",  default = False)
+
     args=parser.parse_args()
     
     
@@ -79,14 +81,7 @@ if __name__ == "__main__":
     instruction_number = args.instruction_amount
     run_name = model_keyword+"_"+dataset_name
     
-    dataset_processor = DatasetProcessor(
-            dataset_name=dataset_name, task=task, task_format=task_format, task_mode=task_mode,
-            tokenizer_name=model_name, max_input_length=max_input_length, max_target_length=max_target_length
-    )
     
-    train_dataset = dataset_processor.load_and_preprocess_data(split='train')
-    eval_dataset = dataset_processor.load_and_preprocess_data(split='validation')
-    test_dataset = dataset_processor.load_and_preprocess_data(split="test")
     
     early_stopping_patience = args.early_stopping_patience
     eval_per_epoch = args.eval_per_epoch
@@ -94,7 +89,16 @@ if __name__ == "__main__":
     hf_token = args.hf_token_hub
     push_model_to_hub = args.push_model_to_hub
     hf_model_repo_name = args.hf_model_repo_name
-  
+    private = args.private
+   
+    dataset_processor = DatasetProcessor(
+            dataset_name=dataset_name, task=task, task_format=task_format, task_mode=task_mode,
+            tokenizer_name=model_name, max_input_length=max_input_length, max_target_length=max_target_length, private = private, token = hf_token
+    )
+    
+    train_dataset = dataset_processor.load_and_preprocess_data(split='train')
+    eval_dataset = dataset_processor.load_and_preprocess_data(split='validation')
+    test_dataset = dataset_processor.load_and_preprocess_data(split="test")
     training_params = {
         'num_train_epochs': args.num_train_epochs,
         'per_device_train_batch_size': args.per_device_train_batch_size,
@@ -158,7 +162,7 @@ if __name__ == "__main__":
             
             if push_model_to_hub == True:
                trainer.args.hub_model_id = hf_model_repo_name
-               trainer.push_to_hub()
+               trainer.push_to_hub(private = True)
              
             with torch.no_grad():
                del model_trainer
@@ -187,7 +191,7 @@ if __name__ == "__main__":
             
             if push_model_to_hub == True:
                trainer.args.hub_model_id = hf_model_repo_name
-               trainer.push_to_hub()
+               trainer.push_to_hub(private = True)
               
             with torch.no_grad():
               del model_trainer
