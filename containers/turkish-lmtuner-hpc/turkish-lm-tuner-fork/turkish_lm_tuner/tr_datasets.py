@@ -818,6 +818,7 @@ class Spell_Correction_Dataset(BaseDataset):
         return {"input_text": examples["corrupted_query"], "target_text": examples["clean_query"]}
     
     def load_dataset(self, split=None):
+        print(self.private)
         if type(self.dataset_info) == tuple:
             if self.private == True:
                 return datasets.load_dataset(self.dataset_info[0], self.dataset_info[1], split=split, token = self.token)
