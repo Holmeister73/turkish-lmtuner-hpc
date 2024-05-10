@@ -58,6 +58,7 @@ class DatasetProcessor:
             split: Split of the dataset to be loaded. Either 'train', 'validation' or 'test'
         """
         logger.info(f"Loading {split} split of {self.dataset_name} dataset")
+        print(self.private)
         self.dataset = initialize_dataset(self.dataset_name, self.dataset_loc, private = self.private, token = self.token)
         data = self.dataset.load_dataset(split)
         
