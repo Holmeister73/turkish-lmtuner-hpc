@@ -18,7 +18,7 @@ class BaseDataset:
         else:
             self.dataset_info = self.DATASET_INFO
         self.private = private
-        self.token = None
+        self.token = token
     def load_dataset(self, split=None):
         if type(self.dataset_info) == tuple:
             return datasets.load_dataset(self.dataset_info[0], self.dataset_info[1], split=split)
