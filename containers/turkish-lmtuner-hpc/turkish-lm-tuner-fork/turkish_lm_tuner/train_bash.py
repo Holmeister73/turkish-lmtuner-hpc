@@ -116,6 +116,8 @@ if __name__ == "__main__":
         "hub_token": hf_token,
         "hub_model_id": hf_model_repo_name
     }
+    if task_format == "conditional_generation":
+       training_params["predict_with_generate"] = True
     optimizer_parameters = {"BERTURK": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "mT5": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
                             "mBART": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "TURNA": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
                        "kanarya2b": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "kanarya750m": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }}
