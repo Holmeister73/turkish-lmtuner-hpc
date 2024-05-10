@@ -57,11 +57,12 @@ if __name__ == "__main__":
 
     parser.add_argument("--eval_per_epoch", help = "How many times evaluation should be done in an epoch", type = int, default = 3)
 
-    parser.add_argument("--push_model_to_hub", help = "True if you want the model to be pushed to hub, false otherwise. Default false", default = False)
+    parser.add_argument("--push_model_to_hub", help = """This flag should be used when the model is to be pushed to hf hub, this flag doesn't take any more arguments,
+       if this flag is there in the command it means push_model_to_hub is set to true""", action = 'store_true')
     
     parser.add_argument("--hf_model_repo_name", help = "Repo name for model if push model to hub is true",  default = None)
 
-    parser.add_argument("--private_data", help = """This flag should be used when the data is private, this flag doesn't take any more arguments
+    parser.add_argument("--private_data", help = """This flag should be used when the data is private, this flag doesn't take any more arguments,
        if this flag is there in the command it means private_data is set to true""", action = 'store_true')
 
     args=parser.parse_args()
