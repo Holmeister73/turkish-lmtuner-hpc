@@ -167,7 +167,7 @@ if __name__ == "__main__":
             trainer, model = model_trainer.train_and_evaluate(train_dataset, eval_dataset, test_dataset, early_stopping_patience = early_stopping_patience)
             
             if push_model_to_hub == True:
-               trainer.push_to_hub(private = True)
+               trainer.push_to_hub()
              
             with torch.no_grad():
                del model_trainer
@@ -195,7 +195,7 @@ if __name__ == "__main__":
             trainer, model = model_trainer.train_and_evaluate(train_dataset, eval_dataset, test_dataset, early_stopping_patience = early_stopping_patience)
             
             if push_model_to_hub == True:
-               trainer.push_to_hub(private = True)
+               trainer.push_to_hub()
               
             with torch.no_grad():
               del model_trainer
