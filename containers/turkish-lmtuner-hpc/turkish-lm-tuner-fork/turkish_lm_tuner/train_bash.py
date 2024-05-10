@@ -62,7 +62,7 @@ if __name__ == "__main__":
     parser.add_argument("--hf_model_repo_name", help = "Repo name for model if push model to hub is true",  default = None)
 
     parser.add_argument("--private_data", help = """This flag should be used when the data is private, this flag doesn't take any more arguments
-       if this flag is there in the command it means private_data is set to true""", type = bool,  action = 'store_true')
+       if this flag is there in the command it means private_data is set to true""", action = 'store_true')
 
     args=parser.parse_args()
     
