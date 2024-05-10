@@ -89,7 +89,7 @@ if __name__ == "__main__":
     hf_token = args.hf_token_hub
     push_model_to_hub = args.push_model_to_hub
     hf_model_repo_name = args.hf_model_repo_name
-    private = args.private
+    private = args.private_data
    
     dataset_processor = DatasetProcessor(
             dataset_name=dataset_name, task=task, task_format=task_format, task_mode=task_mode,
