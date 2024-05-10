@@ -112,7 +112,8 @@ if __name__ == "__main__":
         #'predict_with_generate': True,
         "report_to": "none",
         "eval_do_concat_batches": args.eval_do_concat_batches,
-        "hub_token": hf_token
+        "hub_token": hf_token,
+        "hub_model_id": hf_model_repo_name
     }
     optimizer_parameters = {"BERTURK": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "mT5": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
                             "mBART": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "TURNA": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
@@ -162,7 +163,6 @@ if __name__ == "__main__":
             trainer, model = model_trainer.train_and_evaluate(train_dataset, eval_dataset, test_dataset, early_stopping_patience = early_stopping_patience)
             
             if push_model_to_hub == True:
-               trainer.args.hub_model_id = hf_model_repo_name
                trainer.push_to_hub(private = True)
              
             with torch.no_grad():
@@ -191,7 +191,6 @@ if __name__ == "__main__":
             trainer, model = model_trainer.train_and_evaluate(train_dataset, eval_dataset, test_dataset, early_stopping_patience = early_stopping_patience)
             
             if push_model_to_hub == True:
-               trainer.args.hub_model_id = hf_model_repo_name
                trainer.push_to_hub(private = True)
               
             with torch.no_grad():
