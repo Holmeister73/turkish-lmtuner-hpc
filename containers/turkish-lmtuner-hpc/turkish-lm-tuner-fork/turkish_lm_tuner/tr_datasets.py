@@ -811,7 +811,9 @@ class ProductReviewsCLSDataset(ClassificationDataset):
 class Spell_Correction_Dataset(BaseDataset):
     DATASET_NAME = "spell_correction"
     DATASET_INFO = "Holmeister/spell_correction_data"
-
+    
+    def __init__(self, dataset_name, private = False, token = None):
+        super().__init__(dataset_name, private = private, token = token)
     def preprocess_data(self, examples):
         return {"input_text": examples["corrupted_query"], "target_text": examples["clean_query"]}
     
