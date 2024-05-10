@@ -111,7 +111,8 @@ if __name__ == "__main__":
         'logging_steps': int(np.ceil(len(train_dataset)/args.per_device_train_batch_size)),  #böldüğümüz sayı batch size'a eşit
         #'predict_with_generate': True,
         "report_to": "none",
-        "eval_do_concat_batches": args.eval_do_concat_batches
+        "eval_do_concat_batches": args.eval_do_concat_batches,
+        "hub_token": hf_token
     }
     optimizer_parameters = {"BERTURK": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "mT5": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
                             "mBART": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "TURNA": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
