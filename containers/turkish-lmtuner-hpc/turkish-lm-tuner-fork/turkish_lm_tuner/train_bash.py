@@ -92,10 +92,15 @@ if __name__ == "__main__":
     push_model_to_hub = args.push_model_to_hub
     hf_model_repo_name = args.hf_model_repo_name
     private = args.private_data
-   
+    if model_keyword == "TurkishBERTweet":
+       TurkishBERTweet_preprocess = True
+    else:
+       TurkishBERTweet_preprocess = False
+       
     dataset_processor = DatasetProcessor(
             dataset_name=dataset_name, task=task, task_format=task_format, task_mode=task_mode,
-            tokenizer_name=model_name, max_input_length=max_input_length, max_target_length=max_target_length, private = private, token = hf_token
+            tokenizer_name=model_name, max_input_length=max_input_length, max_target_length=max_target_length,
+            private = private, token = hf_token, TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
     )
     
     train_dataset = dataset_processor.load_and_preprocess_data(split='train')
