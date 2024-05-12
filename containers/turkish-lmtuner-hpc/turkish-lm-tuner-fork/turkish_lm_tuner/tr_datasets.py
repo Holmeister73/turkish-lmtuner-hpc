@@ -5,6 +5,16 @@ import re
 from pathlib import Path
 from TurkishBERTweet_preprocessor import preprocess
 
+def input_output_concatenator(inputs, outputs): #inputs and outputs are either lists of strings or strings themselves
+    if isinstance(inputs,list):
+        result = []
+        for input, output in zip(inputs, outputs):
+            result.append(input+" "+output)
+        return result
+        
+    elif isinstance(inputs,str):
+        return inputs+ " "+ outputs
+        
 class BaseDataset:
     DATASET_NAME = None
     DATASET_INFO = None
@@ -882,14 +892,14 @@ class ProductReviewsGENDataset(BaseDataset):
     def preprocess_data(self, examples):
         if self.TurkishBERTweet_preprocess == True:
             if self.dataset_name == "product_reviews_gen_5_instruction" or self.dataset_name == "product_reviews_gen_1_instruction":
-                return {"input_text": preprocess(examples["prompt"]), "target_text": examples["output"]}
+                return {"input_text": preprocess(input_output_concatenator(examples["prompt"], examples["output"]))}
             else:
-                return {"input_text": preprocess(examples["input"]), "target_text": examples["output"]}
+                return {"input_text": preprocess(input_output_concatenator(examples["input"], examples["output"]))}
         else:
             if self.dataset_name == "product_reviews_gen_5_instruction" or self.dataset_name == "product_reviews_gen_1_instruction":
-                return {"input_text": examples["prompt"], "target_text": examples["output"]}
+                return {"input_text": input_output_concatenator(examples["prompt"], examples["output"])}
             else:
-                return {"input_text": examples["input"], "target_text": examples["output"]}
+                return {"input_text": input_output_concatenator(examples["input"], examples["output"])}
                 
 class OffensevalCLSDataset(ClassificationDataset):
     DATASET_NAME = "offenseval_cls_no_instruction"
@@ -1003,14 +1013,14 @@ class OffensevalGENDataset(BaseDataset):
     def preprocess_data(self, examples):
         if self.TurkishBERTweet_preprocess == True:
             if self.dataset_name == "offenseval_gen_5_instruction" or self.dataset_name == "offenseval_gen_1_instruction":
-                return {"input_text": preprocess(examples["prompt"]), "target_text": examples["output"]}
+                return {"input_text": preprocess(input_output_concatenator(examples["prompt"], examples["output"]))}
             else:
-                return {"input_text": preprocess(examples["input"]), "target_text": examples["output"]}
+                return {"input_text": preprocess(input_output_concatenator(examples["input"], examples["output"]))}
         else:
             if self.dataset_name == "offenseval_gen_5_instruction" or self.dataset_name == "offenseval_gen_1_instruction":
-                return {"input_text": examples["prompt"], "target_text": examples["output"]}
+                return {"input_text": input_output_concatenator(examples["prompt"], examples["output"])}
             else:
-                return {"input_text": examples["input"], "target_text": examples["output"]}
+                return {"input_text": input_output_concatenator(examples["input"], examples["output"])}
                 
 class TSATweetsCLSDataset(ClassificationDataset):
     DATASET_NAME = "TSATweets_cls_no_instruction"
@@ -1124,14 +1134,14 @@ class TSATweetsGENDataset(BaseDataset):
     def preprocess_data(self, examples):
         if self.TurkishBERTweet_preprocess == True:
             if self.dataset_name == "TSATweets_gen_5_instruction" or self.dataset_name == "TSATweets_gen_1_instruction":
-                return {"input_text": preprocess(examples["prompt"]), "target_text": examples["output"]}
+                return {"input_text": preprocess(input_output_concatenator(examples["prompt"], examples["output"]))}
             else:
-                return {"input_text": preprocess(examples["input"]), "target_text": examples["output"]}
+                return {"input_text": preprocess(input_output_concatenator(examples["input"], examples["output"]))}
         else:
             if self.dataset_name == "TSATweets_gen_5_instruction" or self.dataset_name == "TSATweets_gen_1_instruction":
-                return {"input_text": examples["prompt"], "target_text": examples["output"]}
+                return {"input_text": input_output_concatenator(examples["prompt"], examples["output"])}
             else:
-                return {"input_text": examples["input"], "target_text": examples["output"]}
+                return {"input_text": input_output_concatenator(examples["input"], examples["output"])}
 
 class Spell_Correction_Dataset(BaseDataset):
     DATASET_NAME = "spell_correction"
