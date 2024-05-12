@@ -22,3 +22,4 @@ rouge-score
 nltk
 seqeval
 protobuf
+urlextract
