@@ -1,5 +1,5 @@
 from transformers import (
-    AutoTokenizer, AutoModelForSeq2SeqLM, AutoModelForSequenceClassification,
+    AutoTokenizer, AutoModelForSeq2SeqLM, AutoModelForSequenceClassification, AutoModelForCausalLM
     Seq2SeqTrainer, Seq2SeqTrainingArguments,
     Trainer, TrainingArguments,
     EvalPrediction
@@ -144,6 +144,83 @@ class EvaluatorForConditionalGeneration(BaseEvaluator):
             **self.test_params)
 
         trainer = Seq2SeqTrainer(
+            model=model,
+            args=test_args,
+            compute_metrics=self.compute_metrics,
+        )
+        return trainer
+
+    def compute_metrics(self, eval_preds):
+        if isinstance(eval_preds, tuple) and len(eval_preds) == 2:
+            preds, labels = eval_preds
+            inputs = None
+        elif isinstance(eval_preds, EvalPrediction): # qa uses
+            preds, labels, inputs = eval_preds.predictions, eval_preds.label_ids, eval_preds.inputs
+        else:
+            preds, labels, inputs = eval_preds
+        if isinstance(preds, tuple):
+            preds = preds[0]
+        # Replace -100s used for padding as we can't decode them
+        preds = np.where(preds != -100, preds, self.tokenizer.pad_token_id)
+        decoded_preds = self.tokenizer.batch_decode(preds, skip_special_tokens=True)
+        labels = np.where(labels != -100, labels, self.tokenizer.pad_token_id)
+        decoded_labels = self.tokenizer.batch_decode(labels, skip_special_tokens=True)
+        logger.info("Postprocessing predictions and labels")
+
+        # Get post-processing function for specific dataset and task
+        if inputs is not None:
+            decoded_inputs = self.tokenizer.batch_decode(inputs, skip_special_tokens=True)
+            processed_preds = self.postprocess_fn(decoded_preds, decoded_inputs)
+            processed_labels = self.postprocess_fn(decoded_labels, decoded_inputs)
+        else:
+            processed_preds = self.postprocess_fn(decoded_preds)
+            processed_labels = self.postprocess_fn(decoded_labels)
+
+        predictions = pd.DataFrame(
+            {'DecodedPrediction': decoded_preds,
+             'DecodedLabel': decoded_labels,
+             'Prediction': processed_preds,
+             'Label': processed_labels})
+
+        predictions.to_csv(os.path.join(self.test_params['output_dir'], 'predictions.csv'), index=False)
+        logger.info("Computing metrics")
+        logger.info("Decoded predictions: %s", processed_preds[:5])
+        logger.info("Decoded labels: %s", processed_labels[:5])
+
+        result = super().compute_metrics(processed_preds, processed_labels)
+
+        logger.info("Result: %s", result)
+
+        return result
+
+class EvaluatorForGeneration(BaseEvaluator):
+    def __init__(self, model_path, tokenizer_path, task, max_input_length, max_target_length, test_params, generation_params=None, postprocess_fn=None):
+        super().__init__(model_path, tokenizer_path, task, test_params, postprocess_fn)
+        self.max_input_length = max_input_length
+        self.max_target_length = max_target_length
+        self.generation_params = generation_params
+
+    def initialize_model(self):
+        # If used without fine-tuning model should be loaded from the model save path
+        return AutoModelForCausalLM.from_pretrained(self.model_path)
+
+    def initialize_trainer(self, model):
+        # Set default model parameters
+        generation_config = model.generation_config
+        generation_config.max_length = self.max_input_length
+        generation_config.max_new_tokens = self.max_target_length
+
+        if self.generation_params:
+            generation_config.update(**self.generation_params)
+
+        logger.info("Generation config: %s", generation_config)
+
+        #generation_config = GenerationConfig(**self.generation_params)
+        test_args = TrainingArguments(
+            generation_config=generation_config,
+            **self.test_params)
+
+        trainer = Trainer(
             model=model,
             args=test_args,
             compute_metrics=self.compute_metrics,
