@@ -808,6 +808,168 @@ class ProductReviewsCLSDataset(ClassificationDataset):
 
     def postprocess_data(self, examples):
         return examples
+class ProductReviewsGENDataset(BaseDataset):
+    DATASET_NAME = "product_reviews_gen_no_instruction"
+    DATASET_INFO = "Holmeister/product_reviews_no_instruction"
+
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+        
+        if self.dataset_name == "product_reviews_gen_5_instruction":
+            self.dataset_info = "Holmeister/product_reviews_5_instruction"
+        elif self.dataset_name == "product_reviews_gen_1_instruction":
+            self.dataset_info = "Holmeister/product_reviews_1_instruction"
+        elif self.dataset_name == "product_reviews_gen_no_instruction":
+            self.dataset_info = "Holmeister/product_reviews_no_instruction"
+        else:
+            self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        
+    def preprocess_data(self, examples):
+        if self.dataset_name == "product_reviews_gen_5_instruction" or self.dataset_name == "product_reviews_gen_1_instruction":
+            return {"input_text": examples["prompt"], "target_text": examples["output"]}
+        else:
+            return {"input_text": examples["input"], "target_text": examples["output"]}
+
+class OffensevalCLSDataset(ClassificationDataset):
+    DATASET_NAME = "offenseval_cls_no_instruction"
+    DATASET_INFO = "Holmeister/offenseval_no_instruction"
+    IN_LABEL_DICT = {"kırıcı": 1, "kırıcı değil": 0}
+
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+        
+        if self.dataset_name == "offenseval_cls_5_instruction":
+            self.dataset_info = "Holmeister/offenseval_5_instruction"
+        elif self.dataset_name == "offenseval_cls_1_instruction":
+            self.dataset_info = "Holmeister/offenseval_1_instruction"
+        elif self.dataset_name == "offenseval_cls_no_instruction":
+            self.dataset_info = "Holmeister/offenseval_no_instruction"
+        else:
+            self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+            output = [self.IN_LABEL_DICT[ex] for ex in examples["output"]]
+            if self.dataset_name == "offenseval_cls_5_instruction" or self.dataset_name == "offenseval_cls_1_instruction":
+                return {"input_text": examples["prompt"], "label": output}
+            else:
+                return {"input_text": examples["input"], "label": output}
+        else:
+            output = [self.IN_LABEL_DICT[ex] for ex in examples["output"]]
+            if self.dataset_name == "offenseval_cls_5_instruction" or self.dataset_name == "offenseval_cls_1_instruction":
+                return {"input_text": examples["prompt"], "target_text": output}
+            else:
+                return {"input_text": examples["input"], "target_text": output}
+            
+
+    def postprocess_data(self, examples):
+        return examples
+
+class OffensevalGENDataset(BaseDataset):
+    DATASET_NAME = "offenseval_gen_no_instruction"
+    DATASET_INFO = "Holmeister/offenseval_no_instruction"
+
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+        
+        if self.dataset_name == "offenseval_gen_5_instruction":
+            self.dataset_info = "Holmeister/offenseval_5_instruction"
+        elif self.dataset_name == "offenseval_gen_1_instruction":
+            self.dataset_info = "Holmeister/offenseval_1_instruction"
+        elif self.dataset_name == "offenseval_gen_no_instruction":
+            self.dataset_info = "Holmeister/offenseval_no_instruction"
+        else:
+            self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        
+    def preprocess_data(self, examples):
+        if self.dataset_name == "offenseval_gen_5_instruction" or self.dataset_name == "offenseval_gen_1_instruction":
+            return {"input_text": examples["prompt"], "target_text": examples["output"]}
+        else:
+            return {"input_text": examples["input"], "target_text": examples["output"]}
+
+
+class TSATweetsCLSDataset(ClassificationDataset):
+    DATASET_NAME = "TSATweets_cls_no_instruction"
+    DATASET_INFO = "Holmeister/TSATweets_no_instruction"
+    IN_LABEL_DICT = {"negatif": 0, "pozitif": 1, "nötr": 2}
+
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+        
+        if self.dataset_name == "TSATweets_cls_5_instruction":
+            self.dataset_info = "Holmeister/TSATweets_5_instruction"
+        elif self.dataset_name == "TSATweets_cls_1_instruction":
+            self.dataset_info = "Holmeister/TSATweets_1_instruction"
+        elif self.dataset_name == "TSATweets_cls_no_instruction":
+            self.dataset_info = "Holmeister/TSATweets_no_instruction"
+        else:
+            self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+            output = [self.IN_LABEL_DICT[ex] for ex in examples["output"]]
+            if self.dataset_name == "TSATweets_cls_5_instruction" or self.dataset_name == "TSATweets_cls_1_instruction":
+                return {"input_text": examples["prompt"], "label": output}
+            else:
+                return {"input_text": examples["input"], "label": output}
+        else:
+            output = [self.IN_LABEL_DICT[ex] for ex in examples["output"]]
+            if self.dataset_name == "TSATweets_cls_5_instruction" or self.dataset_name == "TSATweets_cls_1_instruction":
+                return {"input_text": examples["prompt"], "target_text": output}
+            else:
+                return {"input_text": examples["input"], "target_text": output}
+            
+
+    def postprocess_data(self, examples):
+        return examples
+
+
+class TSATweetsGENDataset(BaseDataset):
+    DATASET_NAME = "TSATweets_gen_no_instruction"
+    DATASET_INFO = "Holmeister/TSATweets_no_instruction"
+
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+        
+        if self.dataset_name == "TSATweets_gen_5_instruction":
+            self.dataset_info = "Holmeister/TSATweets_5_instruction"
+        elif self.dataset_name == "TSATweets_gen_1_instruction":
+            self.dataset_info = "Holmeister/TSATweets_1_instruction"
+        elif self.dataset_name == "TSATweets_gen_no_instruction":
+            self.dataset_info = "Holmeister/TSATweets_no_instruction"
+        else:
+            self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        
+    def preprocess_data(self, examples):
+        if self.dataset_name == "TSATweets_gen_5_instruction" or self.dataset_name == "TSATweets_gen_1_instruction":
+            return {"input_text": examples["prompt"], "target_text": examples["output"]}
+        else:
+            return {"input_text": examples["input"], "target_text": examples["output"]}
 
 class Spell_Correction_Dataset(BaseDataset):
     DATASET_NAME = "spell_correction"
@@ -831,6 +993,7 @@ class Spell_Correction_Dataset(BaseDataset):
                 return datasets.load_dataset(self.dataset_info, split=split)
         else:
             raise NotImplementedError
+
 
 DATASET_MAPPING_NAMES = [
         ("tr_news", "TRNewsDataset"),
@@ -861,6 +1024,21 @@ DATASET_MAPPING_NAMES = [
         ("product_reviews_cls_5_instruction", "ProductReviewsCLSDataset"),
         ("product_reviews_cls_1_instruction", "ProductReviewsCLSDataset"),
         ("product_reviews_cls_no_instruction", "ProductReviewsCLSDataset"),
+        ("product_reviews_gen_5_instruction", "ProductReviewsGENDataset"),
+        ("product_reviews_gen_1_instruction", "ProductReviewsGENDataset"),
+        ("product_reviews_gen_no_instruction", "ProductReviewsGENDataset"),
+        ("offenseval_cls_5_instruction", "OffensevalCLSDataset"),
+        ("offenseval_cls_1_instruction", "OffensevalCLSDataset"),
+        ("offenseval_cls_no_instruction", "OffensevalCLSDataset"),
+        ("offenseval_gen_5_instruction", "OffensevalGENDataset"),
+        ("offenseval_gen_1_instruction", "OffensevalGENDataset"),
+        ("offenseval_gen_no_instruction", "OffensevalGENDataset"),
+        ("TSATweets_cls_5_instruction", "TSATweetsCLSDataset"),
+        ("TSATweets_cls_1_instruction", "TSATweetsCLSDataset"),
+        ("TSATweets_cls_no_instruction", "TSATweetsCLSDataset"),
+        ("TSATweets_gen_5_instruction", "TSATweetsGENDataset"),
+        ("TSATweets_gen_1_instruction", "TSATweetsGENDataset"),
+        ("TSATweets_gen_no_instruction", "TSATweetsGENDataset"),
         ("spell_correction", "Spell_Correction_Dataset")
     ]
 
