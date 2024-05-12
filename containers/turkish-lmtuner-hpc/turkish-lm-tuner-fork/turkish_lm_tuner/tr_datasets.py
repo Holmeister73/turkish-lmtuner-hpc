@@ -1106,13 +1106,13 @@ DATASET_MAPPING_NAMES = [
 def str_to_class(classname):
     return getattr(sys.modules[__name__], classname)
 
-def initialize_dataset(dataset_name, dataset_loc=None, private = False, token = None):
+def initialize_dataset(dataset_name, dataset_loc=None, private = False, token = None, TurkishBERTweet_preprocess = False):
     for dataset_mapping_name in DATASET_MAPPING_NAMES:
         if dataset_name == dataset_mapping_name[0]:
             dataset_class = str_to_class(dataset_mapping_name[1])
             if dataset_loc != "" and dataset_loc is not None:
                 dataset = dataset_class(dataset_loc)
             else:
-                dataset = dataset_class(dataset_name, private = private, token = token)
+                dataset = dataset_class(dataset_name, private = private, token = token, TurkishBERTweet_preprocess = TurkishBERTweet_preprocess)
             return dataset
     raise NotImplementedError
