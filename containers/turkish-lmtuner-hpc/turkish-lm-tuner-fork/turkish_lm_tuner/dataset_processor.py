@@ -178,6 +178,18 @@ class DatasetProcessor:
                         return_tensors=return_tensors,
                    )
             return {'labels': targets_tokenized['input_ids'], **inputs_tokenized}
+        elif self.task_format == "generation":
+            inputs_tokenized = self.tokenizer(
+                        self.prepend_prefix(examples["input_text"]),
+                        padding="max_length",
+                        truncation=True,
+                        max_length=self.max_input_length,
+                        return_token_type_ids=False,
+                        return_tensors=return_tensors,
+                   )
+            
+            if "target_text" not in examples:
+                return inputs_tokenized
         elif self.task_format == 'classification':
             if self.tokenizer.eos_token == None:
                 logger.info("No EOS token, don't append EOS token")
