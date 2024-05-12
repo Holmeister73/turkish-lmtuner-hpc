@@ -31,7 +31,7 @@ if __name__ == "__main__":
     
     parser.add_argument("--num_labels", help="""Number of labels, only used if the task format is classification""", type = int, default = 2)
     
-    parser.add_argument("--model_keyword", help="""It can be any of the following: BERTURK, mT5, mBART, TURNA, kanarya2b and kanarya750m""",
+    parser.add_argument("--model_keyword", help="""It can be any of the following: BERTURK, mT5, mBART, TURNA, TurkishBERTweet, kanarya2b and kanarya750m""",
                         type = str, default = "TURNA")
     
     parser.add_argument("--max_input_length", help="""It determines the maximum input length, longer inputs will be truncated""", type = int, default = 256)
@@ -69,7 +69,7 @@ if __name__ == "__main__":
     
     
     model_name_dict = {"BERTURK": "dbmdz/bert-base-turkish-cased", "mT5": "google/mt5-large", "mBART": "facebook/mbart-large-cc25", "TURNA": "boun-tabi-LMG/TURNA",
-                       "kanarya2b": "asafaya/kanarya-2b", "kanarya750m": "asafaya/kanarya-750m"}
+                       "kanarya2b": "asafaya/kanarya-2b", "kanarya750m": "asafaya/kanarya-750m", "TurkishBERTweet": "VRLLab/TurkishBERTweet"}
     dataset_name = args.dataset_name
     task = args.task
     task_mode = ''    # either '', '[NLU]', '[NLG]', '[S2S]'
@@ -121,7 +121,8 @@ if __name__ == "__main__":
        training_params["predict_with_generate"] = True
     optimizer_parameters = {"BERTURK": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "mT5": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
                             "mBART": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "TURNA": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
-                       "kanarya2b": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "kanarya750m": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }}
+                       "kanarya2b": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "kanarya750m": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 },
+                           "TurkishBERTweet": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }}
     
     optimizer_params = optimizer_parameters[model_keyword]
     #BERT, gptj ve mBART modeller için 1e-5, 2e-5, 3e-5, 4e-5, 5e-5 ve linear scheduler with warmup, TURNA ve mt5 için 1e-3 ve no scheduler
