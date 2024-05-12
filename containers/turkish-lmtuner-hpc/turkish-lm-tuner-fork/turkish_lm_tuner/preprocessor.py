@@ -5,7 +5,7 @@ import re
 from urlextract import URLExtract
 from unicodedata import normalize
 
-from .demojize import demojize
+from demojize import demojize
 
 
 def hashtag_handler(text: str):
