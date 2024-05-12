@@ -774,7 +774,7 @@ class ProductReviewsCLSDataset(ClassificationDataset):
     DATASET_INFO = "Holmeister/product_reviews_no_instruction"
     IN_LABEL_DICT = {"pozitif": 1, "negatif": 0}
 
-    def __init__(self, dataset_name=None, dataset_info=None):
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None):
         if dataset_name is not None:
             self.dataset_name = dataset_name
         else:
@@ -788,7 +788,8 @@ class ProductReviewsCLSDataset(ClassificationDataset):
             self.dataset_info = "Holmeister/product_reviews_no_instruction"
         else:
             self.dataset_info = self.DATASET_INFO
-
+        self.private = private
+        self.token = token
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
         if skip_output_processing:
