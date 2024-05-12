@@ -35,7 +35,8 @@ class DatasetProcessor:
                  max_target_length: int = None, 
                  dataset_loc: str = '',
                  private = False,
-                 token = None):
+                 token = None,
+                 TurkishBERTweet_preprocess = False):
         
         logger.info(f"Initializing dataset processor for {dataset_name} dataset with {tokenizer_name} tokenizer and {task} task in {task_format} format with {task_mode} mode")
         logger.info(f"Max input length: {max_input_length} Max target length: {max_target_length}")
@@ -51,6 +52,7 @@ class DatasetProcessor:
         self.dataset_loc = dataset_loc
         self.private = private
         self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
     def load_and_preprocess_data(self, split='train'):
         """
         Loads and preprocesses the dataset
@@ -58,7 +60,7 @@ class DatasetProcessor:
             split: Split of the dataset to be loaded. Either 'train', 'validation' or 'test'
         """
         logger.info(f"Loading {split} split of {self.dataset_name} dataset")
-        self.dataset = initialize_dataset(self.dataset_name, self.dataset_loc, private = self.private, token = self.token)
+        self.dataset = initialize_dataset(self.dataset_name, self.dataset_loc, private = self.private, token = self.token, TurkishBERTweet_preprocess = self.TurkishBERTweet_preprocess)
         data = self.dataset.load_dataset(split)
         
         logger.info(f"Preprocessing {self.dataset_name} dataset")
