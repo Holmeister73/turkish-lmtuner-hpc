@@ -14,7 +14,8 @@ from transformers.optimization import Adafactor, AdafactorSchedule, AdamW
 from transformers import DataCollatorForTokenClassification, DataCollatorForLanguageModeling
 from evaluator import (
     EvaluatorForClassification,
-    EvaluatorForConditionalGeneration
+    EvaluatorForConditionalGeneration,
+    EvaluatorForGeneration
 )
 from t5_classifier import T5ForClassification
 import json 
@@ -188,7 +189,7 @@ class TrainerForGeneration(BaseModelTrainer):
         super().__init__(model_name, training_params, optimizer_params)
         self.max_input_length = max_input_length
         self.max_target_length = max_target_length
-        #self.evaluator = EvaluatorForConditionalGeneration(model_save_path, model_name, task, max_input_length, max_target_length, training_params, postprocess_fn=postprocess_fn)
+        self.evaluator = EvaluatorForGeneration(model_save_path, model_name, task, max_input_length, max_target_length, training_params, postprocess_fn=postprocess_fn)
 
     def initialize_model(self):
         model = AutoModelForCausalLM.from_pretrained(self.model_name)
@@ -233,6 +234,7 @@ class TrainerForGeneration(BaseModelTrainer):
             model=model,
             args=training_args,
             data_collator=data_collator,
+            compute_metrics=self.evaluator.compute_metrics,
             train_dataset=train_dataset,
             eval_dataset=eval_dataset,
             optimizers=(optimizer, lr_scheduler),
