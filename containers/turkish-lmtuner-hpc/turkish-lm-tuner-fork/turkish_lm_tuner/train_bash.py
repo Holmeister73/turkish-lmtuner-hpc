@@ -13,7 +13,7 @@ import os
 import evaluate
 import torch
 import gc
-from trainer import TrainerForClassification, TrainerForConditionalGeneration
+from trainer import TrainerForClassification, TrainerForConditionalGeneration, TrainerForGeneration
 from datasets import Dataset
 
 
@@ -27,7 +27,7 @@ if __name__ == "__main__":
     parser.add_argument("--task", help="""Task to be done, it can be anything from: classification, summarization, paraphrasing, title_generation
                         nli, semantic_similarity, ner, pos_tagging, question_answering and question_generation""", type = str, default = "classification")
                         
-    parser.add_argument("--task_format", help="""It can be either classification or conditional generation""", type = str, default = "classification")
+    parser.add_argument("--task_format", help="""It can be either classification, conditional generation or generation""", type = str, default = "classification")
     
     parser.add_argument("--num_labels", help="""Number of labels, only used if the task format is classification""", type = int, default = 2)
     
@@ -122,8 +122,9 @@ if __name__ == "__main__":
         "hub_token": hf_token,
         "hub_model_id": hf_model_repo_name
     }
-    if task_format == "conditional_generation":
+    if task_format == "conditional_generation" or task_format == "generation":
        training_params["predict_with_generate"] = True
+       
     optimizer_parameters = {"BERTURK": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "mT5": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
                             "mBART": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "TURNA": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
                        "kanarya2b": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "kanarya750m": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 },
@@ -213,3 +214,30 @@ if __name__ == "__main__":
             predictions_hf.push_to_hub(pred_hf_repo_name, private = True, token = hf_token)
             #results_df = metrics_per_instruction(preds_df, inst_number = instruction_number, task = "conditional_generation")
             #results_df.to_csv(str(run_name)+"_"+str(lr)+"_results"+str(i)+".csv", index = False)
+    elif task_format == "generation":
+        for i in range(1):  #normalde burası 3 olacak 3 run için
+          for lr in learning_rates[model_keyword][1:2]:  #normalde burada [1:2] olmayacak farklı learning rateler için
+            optimizer_params["lr"] = lr
+            model_trainer = TrainerForGeneration(
+              model_name=model_name, task=task,
+              training_params=training_params,
+              optimizer_params=optimizer_params,
+              model_save_path=run_name,
+              max_input_length = max_input_length,
+              max_target_length = max_target_length,
+              postprocess_fn=dataset_processor.dataset.postprocess_data)
+            trainer, model = model_trainer.train_and_evaluate(train_dataset, eval_dataset, test_dataset, early_stopping_patience = early_stopping_patience)
+            
+            if push_model_to_hub == True:
+               trainer.push_to_hub()
+              
+            with torch.no_grad():
+              del model_trainer
+              del trainer
+              del model
+              gc.collect()
+            preds_df = pd.read_csv(os.path.join(training_params['output_dir'], 'predictions.csv'))
+            predictions_hf = Dataset.from_pandas(preds_df)
+            predictions_hf.push_to_hub(pred_hf_repo_name, private = True, token = hf_token)
+            #results_df = metrics_per_instruction(preds_df, inst_number = instruction_number, task = "conditional_generation")
+            #results_df.to_csv(str(run_name)+"_"+str(lr)+"_results"+str(i)+".csv", index = False)   
