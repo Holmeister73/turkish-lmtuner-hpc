@@ -78,8 +78,8 @@ if __name__ == "__main__":
     model_keyword = args.model_keyword
     model_name = model_name_dict[model_keyword]
     
-    max_input_length = args.max_input_length  #764 original
-    max_target_length = args.max_target_length #128 original
+    max_input_length = args.max_input_length  #128, 128, 80 for prod_reviews, offenseval, TSATweets according to 99th percentile and some rounding
+    max_target_length = args.max_target_length #10, 10, 10 for prod_reviews, offenseval, TSATweets
     instruction_number = args.instruction_amount
     run_name = model_keyword+"_"+dataset_name
     
