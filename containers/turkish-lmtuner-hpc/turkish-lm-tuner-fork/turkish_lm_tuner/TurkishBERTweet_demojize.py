@@ -2,7 +2,7 @@ import json
 import os
 
 dir = os.path.dirname(__file__)
-EMOJI_DATA_PATH = os.path.join(dir, "emojis_tr_twitter.json")
+EMOJI_DATA_PATH = os.path.join(dir, "TurkishBERTweet_emojis_tr_twitter.json")
 
 with open(EMOJI_DATA_PATH, "r") as f:
     emojis = json.load(f)
