@@ -8,7 +8,7 @@ from pathlib import Path
 class BaseDataset:
     DATASET_NAME = None
     DATASET_INFO = None
-    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None):
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
         if dataset_name is not None:
             self.dataset_name = dataset_name
         else:
@@ -19,6 +19,7 @@ class BaseDataset:
             self.dataset_info = self.DATASET_INFO
         self.private = private
         self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
     def load_dataset(self, split=None):
         if type(self.dataset_info) == tuple:
             return datasets.load_dataset(self.dataset_info[0], self.dataset_info[1], split=split)
