@@ -53,20 +53,37 @@ def normalize_text(text: str):
     return normalize("NFC", text)
 
 
-def preprocess(text: str):
-    output = html.unescape(text)
-    output = normalize_text(output)
-    output = email_handler(output)
-    output = url_handler(output)
-    output = hashtag_handler(output)
-    output = cashtag_handler(output)
-    output = mention_handler(output)
-    output = emoji_handler(output)
-    output = re.sub(r"\s+", " ", output)
-    output = output.lower()
-    output = output.strip()
+def preprocess(texts):
+    if(isinstance(texts,list)):
+        outputs = []
+        for text in texts:
+            output = html.unescape(text)
+            output = normalize_text(output)
+            output = email_handler(output)
+            output = url_handler(output)
+            output = hashtag_handler(output)
+            output = cashtag_handler(output)
+            output = mention_handler(output)
+            output = emoji_handler(output)
+            output = re.sub(r"\s+", " ", output)
+            output = output.lower()
+            output = output.strip()
+            outputs.append(output)
+        return outputs
+    elif(isinstance(texts,str)):
+        output = html.unescape(texts)
+        output = normalize_text(output)
+        output = email_handler(output)
+        output = url_handler(output)
+        output = hashtag_handler(output)
+        output = cashtag_handler(output)
+        output = mention_handler(output)
+        output = emoji_handler(output)
+        output = re.sub(r"\s+", " ", output)
+        output = output.lower()
+        output = output.strip()
 
-    return output
+        return output
 
 
 if __name__ == "__main__":
