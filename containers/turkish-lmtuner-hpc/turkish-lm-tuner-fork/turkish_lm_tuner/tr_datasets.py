@@ -954,7 +954,7 @@ class OffensevalCLSDataset(ClassificationDataset):
     def postprocess_data(self, examples):
         return examples
 
-class OffensevalCondGENDataset(BaseDataset):
+class OffensevalCondGenDataset(BaseDataset):
     DATASET_NAME = "offenseval_cond_gen_no_instruction"
     DATASET_INFO = "Holmeister/offenseval_no_instruction"
 
@@ -1075,7 +1075,7 @@ class TSATweetsCLSDataset(ClassificationDataset):
         return examples
 
 
-class TSATweetsCondGENDataset(BaseDataset):
+class TSATweetsCondGenDataset(BaseDataset):
     DATASET_NAME = "TSATweets_cond_gen_no_instruction"
     DATASET_INFO = "Holmeister/TSATweets_no_instruction"
 
