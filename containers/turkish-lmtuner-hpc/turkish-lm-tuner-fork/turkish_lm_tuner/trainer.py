@@ -7,10 +7,11 @@ from transformers import (
     TrainingArguments, Seq2SeqTrainingArguments,
     EarlyStoppingCallback,
     AutoConfig,
-    get_linear_schedule_with_warmup
+    get_linear_schedule_with_warmup,
+    AutoModelForCausalLM
 )
 from transformers.optimization import Adafactor, AdafactorSchedule, AdamW
-from transformers import DataCollatorForTokenClassification
+from transformers import DataCollatorForTokenClassification, DataCollatorForLanguageModeling
 from evaluator import (
     EvaluatorForClassification,
     EvaluatorForConditionalGeneration
@@ -182,7 +183,72 @@ class TrainerForConditionalGeneration(BaseModelTrainer):
 
         return trainer, model
 
+class TrainerForGeneration(BaseModelTrainer):
+    def __init__(self, model_name, task, training_params, optimizer_params, model_save_path, max_input_length, max_target_length, postprocess_fn):
+        super().__init__(model_name, training_params, optimizer_params)
+        self.max_input_length = max_input_length
+        self.max_target_length = max_target_length
+        #self.evaluator = EvaluatorForConditionalGeneration(model_save_path, model_name, task, max_input_length, max_target_length, training_params, postprocess_fn=postprocess_fn)
 
+    def initialize_model(self):
+        model = AutoModelForCausalLM.from_pretrained(self.model_name)
+        if model.config.pad_token_id == None:
+          model.config.pad_token_id = AutoTokenizer.from_pretrained(self.model_name).pad_token_id
+        return model
+    
+    def train_and_evaluate(self, train_dataset, eval_dataset, test_dataset, early_stopping_patience = 3):
+        logger.info("Training in conditional generation mode")
+
+        model = self.initialize_model()
+        if self.model_name == "asafaya/kanarya-750m":
+            model.config.use_cache = False
+        if self.optimizer_params is not None:
+            logger.info("Using optimizers with constant parameters")
+            optimizer, lr_scheduler = self.create_optimizer(model, train_len = len(train_dataset))
+        else:
+            logger.info("Using optimizers created based on training_arguments")
+            optimizer, lr_scheduler = (None, None)
+
+        tokenizer = self.tokenizer
+        data_collator = DataCollatorForLanguageModeling(tokenizer, mlm=False)
+        generation_config = model.generation_config 
+        generation_config.max_length = self.max_input_length
+        generation_config.max_new_tokens = self.max_target_length
+
+        logger.info("Generation config: %s", generation_config)
+
+        training_args = TrainingArguments(
+            metric_for_best_model='eval_loss',
+            load_best_model_at_end=True,
+            greater_is_better=False,
+            generation_config=generation_config,
+            **self.training_params)
+        logger.info("Training arguments: %s", training_args)
+
+        # make datasets smaller for debugging
+        # train_dataset = train_dataset.select(range(3))
+        # eval_dataset = eval_dataset.select(range(3))
+
+        trainer = Trainer(
+            model=model,
+            args=training_args,
+            data_collator=data_collator,
+            train_dataset=train_dataset,
+            eval_dataset=eval_dataset,
+            optimizers=(optimizer, lr_scheduler),
+            callbacks = [EarlyStoppingCallback(early_stopping_patience=early_stopping_patience)]
+        )
+
+        trainer.train()
+        if self.model_name == "asafaya/kanarya-750m":
+            trainer.model.config.use_cache = False
+        results = trainer.evaluate(test_dataset)
+        
+        logger.info("Results: %s", results)
+        json.dump(results, open(os.path.join(self.training_params['output_dir'], "results.json"), "w"))
+
+        return trainer, model
+        
 class TrainerForClassification(BaseModelTrainer):
     def __init__(self, model_name, task, training_params, optimizer_params, model_save_path, num_labels, postprocess_fn=None):
         super().__init__(model_name, training_params, optimizer_params)
