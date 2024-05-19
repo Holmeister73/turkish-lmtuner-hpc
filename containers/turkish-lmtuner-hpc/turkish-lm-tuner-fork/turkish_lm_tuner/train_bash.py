@@ -188,7 +188,7 @@ if __name__ == "__main__":
             #results_df.to_csv(str(run_name)+"_"+str(lr)+"_results"+str(i)+".csv", index = False)
             
     elif task_format == "conditional_generation":
-        learning_rates["mBART"] = [2e-5, 5e-5, 1e-4]
+        learning_rates["mBART"] = [5e-5, 1e-4, 2e-4]
         for i in range(1):  #normalde burası 3 olacak 3 run için
           for lr in learning_rates[model_keyword][1:2]:  #normalde burada [1:2] olmayacak farklı learning rateler için
             optimizer_params["lr"] = lr
