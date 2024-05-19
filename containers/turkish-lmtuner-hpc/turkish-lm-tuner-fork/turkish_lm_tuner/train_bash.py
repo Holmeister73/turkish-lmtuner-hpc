@@ -203,7 +203,7 @@ if __name__ == "__main__":
             
             if push_model_to_hub == True:
                trainer.push_to_hub()
-              
+               trainer.tokenizer.push_to_hub(repo_id = hf_model_repo_name, token = hf_token)
             with torch.no_grad():
               del model_trainer
               del trainer
