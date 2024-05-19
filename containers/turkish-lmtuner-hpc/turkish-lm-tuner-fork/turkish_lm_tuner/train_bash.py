@@ -15,7 +15,7 @@ import torch
 import gc
 from trainer import TrainerForClassification, TrainerForConditionalGeneration, TrainerForGeneration
 from datasets import Dataset
-
+from transformers import AutoTokenizer
 
    
 if __name__ == "__main__":
@@ -203,7 +203,8 @@ if __name__ == "__main__":
             
             if push_model_to_hub == True:
                trainer.push_to_hub()
-               trainer.tokenizer.push_to_hub(repo_id = hf_model_repo_name, token = hf_token)
+               tokenizer = AutoTokenizer.from_pretrained(model_name)
+               tokenizer.push_to_hub(repo_id = hf_model_repo_name, token = hf_token)
             with torch.no_grad():
               del model_trainer
               del trainer
