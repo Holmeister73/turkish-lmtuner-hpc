@@ -157,9 +157,9 @@ if __name__ == "__main__":
     
       return results_df
     
-    learning_rates = {"BERTURK": [1e-5, 2e-5, 4e-5] , "mT5": [5e-5, 1e-4, 2e-4], "mBART": [5e-5, 1e-4, 2e-4] , "TURNA": [5e-4, 1e-3, 2e-3],
+    learning_rates = {"BERTURK": [1e-5, 2e-5, 4e-5] , "mT5": [5e-5, 1e-4, 2e-4], "mBART": [1e-5, 2e-5, 4e-5] , "TURNA": [5e-4, 1e-3, 2e-3],
                        "kanarya2b": [2e-5, 4e-5, 6e-5] , "kanarya750m": [2e-5, 4e-5, 6e-5], "TurkishBERTweet": [1e-5, 2e-5, 4e-5] }
-    
+
     if task_format == "classification":
         for i in range(1):  #normalde burası 3 olacak 3 run için
           for lr in learning_rates[model_keyword][1:2]:  #normalde burada [1:2] olmayacak farklı learning rateler için
@@ -188,6 +188,7 @@ if __name__ == "__main__":
             #results_df.to_csv(str(run_name)+"_"+str(lr)+"_results"+str(i)+".csv", index = False)
             
     elif task_format == "conditional_generation":
+        learning_rates["mBART"] = [5e-5, 1e-4, 2e-4]
         for i in range(1):  #normalde burası 3 olacak 3 run için
           for lr in learning_rates[model_keyword][1:2]:  #normalde burada [1:2] olmayacak farklı learning rateler için
             optimizer_params["lr"] = lr
