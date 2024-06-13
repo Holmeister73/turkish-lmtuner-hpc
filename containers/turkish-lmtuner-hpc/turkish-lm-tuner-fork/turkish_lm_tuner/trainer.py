@@ -287,6 +287,12 @@ class TrainerForClassification(BaseModelTrainer):
                 if model.config.pad_token_id == None:
                   model.config.pad_token_id = AutoTokenizer.from_pretrained(self.model_name).pad_token_id
                 return model
+
+            elif self.task == "multi_label_classification":
+                model = AutoModelForSequenceClassification.from_pretrained(self.model_name, num_labels=self.num_labels, problem_type = "multi_label_classification")
+                if model.config.pad_token_id == None:
+                  model.config.pad_token_id = AutoTokenizer.from_pretrained(self.model_name).pad_token_id
+                return model
     
     def train_and_evaluate(self, train_dataset, eval_dataset, test_dataset, early_stopping_patience = 3):
         logger.info("Training in classification mode")
