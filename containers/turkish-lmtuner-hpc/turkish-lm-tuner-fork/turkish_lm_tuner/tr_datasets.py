@@ -1166,6 +1166,193 @@ class Spell_Correction_Dataset(BaseDataset):
         else:
             raise NotImplementedError
 
+class EI_OC_ANGER_Dataset(ClassificationDataset):
+    DATASET_NAME = "ei_oc_anger"
+    DATASET_INFO = "Holmeister/ei_oc_anger"
+
+    def __init__(self, dataset_name=None):
+        super().__init__(dataset_name)
+
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+            output = [ex for ex in examples["output"]]
+            return {"input_text": examples["input"], "label": output}
+        output = [ex for ex in examples["output"]]
+        return {"input_text": examples["input"], "target_text": output}
+    def postprocess_data(self, examples):
+        return examples
+
+class EI_OC_FEAR_Dataset(ClassificationDataset):
+    DATASET_NAME = "ei_oc_fear"
+    DATASET_INFO = "Holmeister/ei_oc_fear"
+
+    def __init__(self, dataset_name=None):
+        super().__init__(dataset_name)
+
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+            output = [ex for ex in examples["output"]]
+            return {"input_text": examples["input"], "label": output}
+        output = [ex for ex in examples["output"]]
+        return {"input_text": examples["input"], "target_text": output}
+    def postprocess_data(self, examples):
+        return examples
+
+class EI_OC_JOY_Dataset(ClassificationDataset):
+    DATASET_NAME = "ei_oc_joy"
+    DATASET_INFO = "Holmeister/ei_oc_joy"
+
+    def __init__(self, dataset_name=None):
+        super().__init__(dataset_name)
+
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+            output = [ex for ex in examples["output"]]
+            return {"input_text": examples["input"], "label": output}
+        output = [ex for ex in examples["output"]]
+        return {"input_text": examples["input"], "target_text": output}
+    def postprocess_data(self, examples):
+        return examples
+
+class EI_OC_SADNESS_Dataset(ClassificationDataset):
+    DATASET_NAME = "ei_oc_sadness"
+    DATASET_INFO = "Holmeister/ei_oc_sadness"
+
+    def __init__(self, dataset_name=None):
+        super().__init__(dataset_name)
+
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+            output = [ex for ex in examples["output"]]
+            return {"input_text": examples["input"], "label": output}
+        output = [ex for ex in examples["output"]]
+        return {"input_text": examples["input"], "target_text": output}
+    def postprocess_data(self, examples):
+        return examples
+
+class EI_REG_ANGER_Dataset(ClassificationDataset):
+    DATASET_NAME = "ei_reg_anger"
+    DATASET_INFO = "Holmeister/ei_reg_anger"
+
+    def __init__(self, dataset_name=None):
+        super().__init__(dataset_name)
+
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+            output = [ex for ex in examples["output"]]
+            return {"input_text": examples["input"], "label": output}
+        output = [ex for ex in examples["output"]]
+        return {"input_text": examples["input"], "target_text": output}
+    def postprocess_data(self, examples):
+        return examples
+
+class EI_REG_FEAR_Dataset(ClassificationDataset):
+    DATASET_NAME = "ei_reg_fear"
+    DATASET_INFO = "Holmeister/ei_reg_fear"
+
+    def __init__(self, dataset_name=None):
+        super().__init__(dataset_name)
+
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+            output = [ex for ex in examples["output"]]
+            return {"input_text": examples["input"], "label": output}
+        output = [ex for ex in examples["output"]]
+        return {"input_text": examples["input"], "target_text": output}
+    def postprocess_data(self, examples):
+        return examples
+
+class EI_REG_JOY_Dataset(ClassificationDataset):
+    DATASET_NAME = "ei_reg_joy"
+    DATASET_INFO = "Holmeister/ei_reg_joy"
+
+    def __init__(self, dataset_name=None):
+        super().__init__(dataset_name)
+
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+            output = [ex for ex in examples["output"]]
+            return {"input_text": examples["input"], "label": output}
+        output = [ex for ex in examples["output"]]
+        return {"input_text": examples["input"], "target_text": output}
+    def postprocess_data(self, examples):
+        return examples
+
+class EI_REG_SADNESS_Dataset(ClassificationDataset):
+    DATASET_NAME = "ei_reg_sadness"
+    DATASET_INFO = "Holmeister/ei_reg_sadness"
+
+    def __init__(self, dataset_name=None):
+        super().__init__(dataset_name)
+
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+            output = [ex for ex in examples["output"]]
+            return {"input_text": examples["input"], "label": output}
+        output = [ex for ex in examples["output"]]
+        return {"input_text": examples["input"], "target_text": output}
+    def postprocess_data(self, examples):
+        return examples
+
+class E_C_Dataset(ClassificationDataset):
+    DATASET_NAME = "e_c"
+    DATASET_INFO = "Holmeister/e_c"
+
+    def __init__(self, dataset_name=None):
+        super().__init__(dataset_name)
+
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+            output = [ex for ex in examples["output"]]
+            return {"input_text": examples["input"], "label": output}
+        output = [ex for ex in examples["output"]]
+        return {"input_text": examples["input"], "target_text": output}
+    def postprocess_data(self, examples):
+        return examples
+
+class V_OC_Dataset(ClassificationDataset):
+    DATASET_NAME = "v_oc"
+    DATASET_INFO = "Holmeister/v_oc"
+
+    def __init__(self, dataset_name=None):
+        super().__init__(dataset_name)
+
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+            output = [ex for ex in examples["output"]]
+            return {"input_text": examples["input"], "label": output}
+        output = [ex for ex in examples["output"]]
+        return {"input_text": examples["input"], "target_text": output}
+    def postprocess_data(self, examples):
+        return examples
+
+class V_REG_Dataset(ClassificationDataset):
+    DATASET_NAME = "v_reg"
+    DATASET_INFO = "Holmeister/v_reg"
+
+    def __init__(self, dataset_name=None):
+        super().__init__(dataset_name)
+
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+            output = [ex for ex in examples["output"]]
+            return {"input_text": examples["input"], "label": output}
+        output = [ex for ex in examples["output"]]
+        return {"input_text": examples["input"], "target_text": output}
+    def postprocess_data(self, examples):
+        return examples
+
 
 DATASET_MAPPING_NAMES = [
         ("tr_news", "TRNewsDataset"),
@@ -1220,7 +1407,18 @@ DATASET_MAPPING_NAMES = [
         ("TSATweets_gen_5_instruction", "TSATweetsGENDataset"),
         ("TSATweets_gen_1_instruction", "TSATweetsGENDataset"),
         ("TSATweets_gen_no_instruction", "TSATweetsGENDataset"),
-        ("spell_correction", "Spell_Correction_Dataset")
+        ("spell_correction", "Spell_Correction_Dataset"),
+        ("ei_oc_anger", "EI_OC_ANGER_Dataset"),
+        ("ei_oc_fear", "EI_OC_FEAR_Dataset"),
+        ("ei_oc_joy", "EI_OC_JOY_Dataset"),
+        ("ei_oc_sadness", "EI_OC_SADNESS_Dataset"),
+        ("ei_reg_anger", "EI_REG_ANGER_Dataset"),
+        ("ei_reg_fear", "EI_REG_FEAR_Dataset"),
+        ("ei_reg_joy", "EI_REG_JOY_Dataset"),
+        ("ei_reg_sadness", "EI_REG_SADNESS_Dataset"),
+        ("e_c", "E_C_Dataset"),
+        ("v_oc", "V_OC_Dataset"),
+        ("v_reg", "V_REG_Dataset")
     ]
 
 def str_to_class(classname):
