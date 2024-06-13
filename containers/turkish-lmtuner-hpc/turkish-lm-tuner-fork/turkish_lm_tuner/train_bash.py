@@ -24,7 +24,7 @@ if __name__ == "__main__":
     parser.add_argument("--dataset_name", help = """Name of the dataset, this dataset's train split will be used for training valid split will be used
                         for validation and test split will be used for final evaluation""", type = str, default = "emotion_single")
                         
-    parser.add_argument("--task", help="""Task to be done, it can be anything from: classification, summarization, paraphrasing, title_generation
+    parser.add_argument("--task", help="""Task to be done, it can be anything from: classification, multi_label_classification, summarization, paraphrasing, title_generation
                         nli, semantic_similarity, ner, pos_tagging, question_answering and question_generation""", type = str, default = "classification")
                         
     parser.add_argument("--task_format", help="""It can be either classification, conditional generation or generation""", type = str, default = "classification")
