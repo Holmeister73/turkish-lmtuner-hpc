@@ -295,7 +295,6 @@ class TrainerForClassification(BaseModelTrainer):
                 return model
                 
             elif self.task == "regression":
-                print("asdasdasd")
                 model = AutoModelForSequenceClassification.from_pretrained(self.model_name, num_labels=self.num_labels, problem_type = "regression")
                 if model.config.pad_token_id == None:
                   model.config.pad_token_id = AutoTokenizer.from_pretrained(self.model_name).pad_token_id
@@ -317,7 +316,6 @@ class TrainerForClassification(BaseModelTrainer):
         logger.info("Training arguments: %s", training_args)
 
         model = self.initialize_model()
-        print(model.config.problem_type)
         if self.model_name == "asafaya/kanarya-750m":
             model.config.use_cache = False
         if self.optimizer_params is not None:
