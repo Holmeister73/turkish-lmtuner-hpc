@@ -316,6 +316,7 @@ class TrainerForClassification(BaseModelTrainer):
         logger.info("Training arguments: %s", training_args)
 
         model = self.initialize_model()
+        print(model.config.problem_type)
         if self.model_name == "asafaya/kanarya-750m":
             model.config.use_cache = False
         if self.optimizer_params is not None:
