@@ -1186,7 +1186,7 @@ class EI_OC_ANGER_Dataset(ClassificationDataset):
         if skip_output_processing:
             output = [ex for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
-        output = [ex for ex in examples["output"]]
+        output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
     def postprocess_data(self, examples):
         return examples
@@ -1211,7 +1211,7 @@ class EI_OC_FEAR_Dataset(ClassificationDataset):
         if skip_output_processing:
             output = [ex for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
-        output = [ex for ex in examples["output"]]
+        output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
     def postprocess_data(self, examples):
         return examples
@@ -1236,7 +1236,7 @@ class EI_OC_JOY_Dataset(ClassificationDataset):
         if skip_output_processing:
             output = [ex for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
-        output = [ex for ex in examples["output"]]
+        output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
     def postprocess_data(self, examples):
         return examples
@@ -1261,7 +1261,7 @@ class EI_OC_SADNESS_Dataset(ClassificationDataset):
         if skip_output_processing:
             output = [ex for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
-        output = [ex for ex in examples["output"]]
+        output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
     def postprocess_data(self, examples):
         return examples
@@ -1286,7 +1286,7 @@ class EI_REG_ANGER_Dataset(ClassificationDataset):
         if skip_output_processing:
             output = [ex for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
-        output = [ex for ex in examples["output"]]
+        output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
     def postprocess_data(self, examples):
         return examples
@@ -1311,7 +1311,7 @@ class EI_REG_FEAR_Dataset(ClassificationDataset):
         if skip_output_processing:
             output = [ex for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
-        output = [ex for ex in examples["output"]]
+        output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
     def postprocess_data(self, examples):
         return examples
@@ -1336,7 +1336,7 @@ class EI_REG_JOY_Dataset(ClassificationDataset):
         if skip_output_processing:
             output = [ex for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
-        output = [ex for ex in examples["output"]]
+        output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
     def postprocess_data(self, examples):
         return examples
@@ -1361,7 +1361,7 @@ class EI_REG_SADNESS_Dataset(ClassificationDataset):
         if skip_output_processing:
             output = [ex for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
-        output = [ex for ex in examples["output"]]
+        output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
     def postprocess_data(self, examples):
         return examples
@@ -1386,7 +1386,7 @@ class E_C_Dataset(ClassificationDataset):
         if skip_output_processing:
             output = [ex for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
-        output = [ex for ex in examples["output"]]
+        output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
     def postprocess_data(self, examples):
         return examples
@@ -1411,7 +1411,7 @@ class V_OC_Dataset(ClassificationDataset):
         if skip_output_processing:
             output = [ex for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
-        output = [ex for ex in examples["output"]]
+        output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
     def postprocess_data(self, examples):
         return examples
@@ -1436,7 +1436,7 @@ class V_REG_Dataset(ClassificationDataset):
         if skip_output_processing:
             output = [ex for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
-        output = [ex for ex in examples["output"]]
+        output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
     def postprocess_data(self, examples):
         return examples
