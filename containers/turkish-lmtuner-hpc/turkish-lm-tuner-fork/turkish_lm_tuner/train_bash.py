@@ -186,6 +186,7 @@ if __name__ == "__main__":
                del model
                gc.collect()
             preds_df = pd.read_csv(os.path.join(training_params['output_dir'], 'predictions.csv'))
+            print(preds_df.head())
             predictions_hf = Dataset.from_pandas(preds_df)
             predictions_hf.push_to_hub(pred_hf_repo_name+"-"+str(lr), private = True, token = hf_token)
             #results_df = metrics_per_instruction(preds_df, inst_number = instruction_number, task = "sequence_classification")
