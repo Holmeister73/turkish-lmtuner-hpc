@@ -83,6 +83,10 @@ class EvaluatorForClassification(BaseEvaluator):
         preds, labels = eval_preds
         if self.task == "semantic_similarity":
             preds = preds.flatten()
+
+        elif self.task == "regression" or self.task == "multi_label_classification":
+            preds = preds
+            
         else:
             if(isinstance(preds,tuple)):
               preds = np.argmax(preds[0], axis = -1)
