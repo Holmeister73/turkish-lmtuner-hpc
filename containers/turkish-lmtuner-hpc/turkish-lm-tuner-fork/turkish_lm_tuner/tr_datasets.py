@@ -1170,8 +1170,16 @@ class EI_OC_ANGER_Dataset(ClassificationDataset):
     DATASET_NAME = "ei_oc_anger"
     DATASET_INFO = "Holmeister/ei_oc_anger"
 
-    def __init__(self, dataset_name=None):
-        super().__init__(dataset_name)
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+            
+        self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
 
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
@@ -1187,8 +1195,16 @@ class EI_OC_FEAR_Dataset(ClassificationDataset):
     DATASET_NAME = "ei_oc_fear"
     DATASET_INFO = "Holmeister/ei_oc_fear"
 
-    def __init__(self, dataset_name=None):
-        super().__init__(dataset_name)
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+            
+        self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
 
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
@@ -1204,8 +1220,16 @@ class EI_OC_JOY_Dataset(ClassificationDataset):
     DATASET_NAME = "ei_oc_joy"
     DATASET_INFO = "Holmeister/ei_oc_joy"
 
-    def __init__(self, dataset_name=None):
-        super().__init__(dataset_name)
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+            
+        self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
 
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
@@ -1221,8 +1245,16 @@ class EI_OC_SADNESS_Dataset(ClassificationDataset):
     DATASET_NAME = "ei_oc_sadness"
     DATASET_INFO = "Holmeister/ei_oc_sadness"
 
-    def __init__(self, dataset_name=None):
-        super().__init__(dataset_name)
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+            
+        self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
 
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
@@ -1238,8 +1270,16 @@ class EI_REG_ANGER_Dataset(ClassificationDataset):
     DATASET_NAME = "ei_reg_anger"
     DATASET_INFO = "Holmeister/ei_reg_anger"
 
-    def __init__(self, dataset_name=None):
-        super().__init__(dataset_name)
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+            
+        self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
 
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
@@ -1255,8 +1295,16 @@ class EI_REG_FEAR_Dataset(ClassificationDataset):
     DATASET_NAME = "ei_reg_fear"
     DATASET_INFO = "Holmeister/ei_reg_fear"
 
-    def __init__(self, dataset_name=None):
-        super().__init__(dataset_name)
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+            
+        self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
 
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
@@ -1272,8 +1320,16 @@ class EI_REG_JOY_Dataset(ClassificationDataset):
     DATASET_NAME = "ei_reg_joy"
     DATASET_INFO = "Holmeister/ei_reg_joy"
 
-    def __init__(self, dataset_name=None):
-        super().__init__(dataset_name)
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+            
+        self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
 
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
@@ -1289,8 +1345,16 @@ class EI_REG_SADNESS_Dataset(ClassificationDataset):
     DATASET_NAME = "ei_reg_sadness"
     DATASET_INFO = "Holmeister/ei_reg_sadness"
 
-    def __init__(self, dataset_name=None):
-        super().__init__(dataset_name)
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+            
+        self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
 
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
@@ -1306,8 +1370,16 @@ class E_C_Dataset(ClassificationDataset):
     DATASET_NAME = "e_c"
     DATASET_INFO = "Holmeister/e_c"
 
-    def __init__(self, dataset_name=None):
-        super().__init__(dataset_name)
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+            
+        self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
 
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
@@ -1323,8 +1395,16 @@ class V_OC_Dataset(ClassificationDataset):
     DATASET_NAME = "v_oc"
     DATASET_INFO = "Holmeister/v_oc"
 
-    def __init__(self, dataset_name=None):
-        super().__init__(dataset_name)
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+            
+        self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
 
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
@@ -1340,8 +1420,16 @@ class V_REG_Dataset(ClassificationDataset):
     DATASET_NAME = "v_reg"
     DATASET_INFO = "Holmeister/v_reg"
 
-    def __init__(self, dataset_name=None):
-        super().__init__(dataset_name)
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+            
+        self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
 
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
