@@ -85,8 +85,7 @@ class EvaluatorForClassification(BaseEvaluator):
             preds = preds.flatten()
 
         elif self.task == "regression" or self.task == "multi_label_classification":
-            print(type(preds))
-            print(preds.shape)
+            preds = preds.flatten()
             
         else:
             if(isinstance(preds,tuple)):
