@@ -219,6 +219,8 @@ def load_task_metrics(task):
         return load_metrics(["squad"])
     elif task == "question_generation":
         return load_metrics(["rouge", "bleu", "meteor", "ter"])
+    elif task == "regression" or task == "multi_label_classification":
+        return []
     else:
         raise NotImplementedError(f"Task {task} not implemented.")
     
