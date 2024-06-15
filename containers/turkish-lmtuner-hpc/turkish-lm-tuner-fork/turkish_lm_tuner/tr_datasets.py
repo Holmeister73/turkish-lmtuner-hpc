@@ -1284,7 +1284,7 @@ class EI_REG_ANGER_Dataset(ClassificationDataset):
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
         if skip_output_processing:
-            output = [ex for ex in examples["output"]]
+            output = [float(ex) for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
         output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
@@ -1309,7 +1309,7 @@ class EI_REG_FEAR_Dataset(ClassificationDataset):
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
         if skip_output_processing:
-            output = [ex for ex in examples["output"]]
+            output = [float(ex) for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
         output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
@@ -1334,7 +1334,7 @@ class EI_REG_JOY_Dataset(ClassificationDataset):
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
         if skip_output_processing:
-            output = [ex for ex in examples["output"]]
+            output = [float(ex) for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
         output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
@@ -1359,7 +1359,7 @@ class EI_REG_SADNESS_Dataset(ClassificationDataset):
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
         if skip_output_processing:
-            output = [ex for ex in examples["output"]]
+            output = [float(ex) for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
         output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
@@ -1384,7 +1384,7 @@ class E_C_Dataset(ClassificationDataset):
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
         if skip_output_processing:
-            output = [ex for ex in examples["output"]]
+            output = [list(ex) for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
         output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
@@ -1434,7 +1434,7 @@ class V_REG_Dataset(ClassificationDataset):
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
         if skip_output_processing:
-            output = [ex for ex in examples["output"]]
+            output = [float(ex) for ex in examples["output"]]
             return {"input_text": examples["input"], "label": output}
         output = [str(ex) for ex in examples["output"]]
         return {"input_text": examples["input"], "target_text": output}
