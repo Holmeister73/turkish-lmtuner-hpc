@@ -165,7 +165,8 @@ if __name__ == "__main__":
 
     if task_format == "classification":
         for i in range(1):  #normalde burası 3 olacak 3 run için
-          for lr in learning_rates[model_keyword][1:2]:  #normalde burada [1:2] olmayacak farklı learning rateler için
+          for lr in learning_rates[model_keyword]:  #normalde burada [1:2] olmayacak farklı learning rateler için
+            
             optimizer_params["lr"] = lr
             model_trainer = TrainerForClassification(
               model_name=model_name, task=task,
@@ -186,7 +187,7 @@ if __name__ == "__main__":
                gc.collect()
             preds_df = pd.read_csv(os.path.join(training_params['output_dir'], 'predictions.csv'))
             predictions_hf = Dataset.from_pandas(preds_df)
-            predictions_hf.push_to_hub(pred_hf_repo_name, private = True, token = hf_token)
+            predictions_hf.push_to_hub(pred_hf_repo_name+"-"+str(lr), private = True, token = hf_token)
             #results_df = metrics_per_instruction(preds_df, inst_number = instruction_number, task = "sequence_classification")
             #results_df.to_csv(str(run_name)+"_"+str(lr)+"_results"+str(i)+".csv", index = False)
             
