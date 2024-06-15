@@ -107,7 +107,6 @@ if __name__ == "__main__":
     train_dataset = dataset_processor.load_and_preprocess_data(split='train')
     eval_dataset = dataset_processor.load_and_preprocess_data(split='validation')
     test_dataset = dataset_processor.load_and_preprocess_data(split="test")
-    print(train_dataset.features)
     training_params = {
         'num_train_epochs': args.num_train_epochs,
         'per_device_train_batch_size': args.per_device_train_batch_size,
