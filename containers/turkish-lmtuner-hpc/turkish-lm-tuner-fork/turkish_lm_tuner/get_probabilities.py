@@ -59,7 +59,7 @@ if __name__ == "__main__":
     parser.add_argument("--hf_token_hub", help="""token for huggingface""",  default = None)
 
     parser.add_argument("--probabilities_repo_name", help = "Repo name for the calculated probabilities",  default = None)
-    
+    args=parser.parse_args()
     misspelled_and_candidate_data = args.misspelled_and_candidate_dataset_name
     model_name = args.model_name
     hf_token = args.hf_token_hub
