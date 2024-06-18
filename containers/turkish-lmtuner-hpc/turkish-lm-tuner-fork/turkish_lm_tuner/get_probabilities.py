@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-from datasets import load_dataset
+from datasets import load_dataset, Dataset
 import argparse, sys
 import pandas as pd
 import torch.nn as nn
