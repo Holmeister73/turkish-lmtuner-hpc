@@ -15,12 +15,14 @@ if __name__ == "__main__":
     parser.add_argument("--hf_token_hub", help="""token for huggingface""",  default = None)
 
     parser.add_argument("--suggestions_repo_name", help = "Repo name for the suggestions",  default = None)
+
+    parser.add_argument("--suggestion_amount", help = "k in the top-k suggestions", default = 10)
     args=parser.parse_args()
     misspelled_data = args.misspelled_dataset_name
     model_name = args.model_name
     hf_token = args.hf_token_hub
     suggestions_repo = args.suggestions_repo_name
-    
+    suggestion_amount = args.suggestion_amount
     tokenizer = AutoTokenizer.from_pretrained("boun-tabi-LMG/TURNA")
     model = AutoModelForSeq2SeqLM.from_pretrained("Holmeister/TURNA_spell_correction_"+model_name)
     
@@ -31,7 +33,7 @@ if __name__ == "__main__":
     misspelled_words = load_dataset("Holmeister/"+misspelled_data, token = hf_token)
     misspelled_df = pd.DataFrame(misspelled_words["train"])
     misspellings = list(misspelled_df["misspellings"])
-    suggestions_df = pd.Dataframe(columns = ["misspellings", "suggestions", "probabilities", "token_counts"])
+    suggestions_df = pd.DataFrame(columns = ["misspellings", "suggestions", "probabilities", "token_counts"])
     suggestions = []
     probabilities = []
     token_counts = []
@@ -42,8 +44,8 @@ if __name__ == "__main__":
         # generate the output using beam search
         beam_outputs = model.generate(
             inputs=source_ids,
-            num_beams=20,
-            num_return_sequences = 10,
+            num_beams=suggestion_amount*2,
+            num_return_sequences = suggestion_amount,
             min_length=0,
             max_length=20,
             max_new_tokens = 20,
@@ -66,7 +68,7 @@ if __name__ == "__main__":
           probabilities.append(probability)
           token_counts.append(len(tokenized_predictions)+1) # +1 for eos token
 
-    suggestions_df["misspellings"] = 10 * misspellings
+    suggestions_df["misspellings"] = suggestion_amount * misspellings
     suggestions_df["probabilities"] = probabilities
     suggestions_df["token_counts"] = token_counts
     suggestions_df["suggestions"] = suggestions
