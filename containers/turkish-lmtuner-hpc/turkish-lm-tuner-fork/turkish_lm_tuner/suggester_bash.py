@@ -8,7 +8,7 @@ import pandas as pd
 if __name__ == "__main__":
     parser=argparse.ArgumentParser()
     
-    parser.add_argument("--misspelled_dataset_name", help = """Dataset containing misspelled words""", type = str, default = "emotion_single")
+    parser.add_argument("--misspelled_dataset_name", help = """Dataset containing misspelled words""", type = str, default = "ranker_misspellings_product")
                         
     parser.add_argument("--model_name", help="""Either product_search or general_turkish""", type = str, default = "product_search")
 
