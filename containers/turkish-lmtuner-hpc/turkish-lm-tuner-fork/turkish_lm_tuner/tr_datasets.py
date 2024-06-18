@@ -1147,7 +1147,7 @@ class Spell_Correction_Product(BaseDataset):
     DATASET_NAME = "spell_correction_product"
     DATASET_INFO = "Holmeister/spell_correct_product_search"
     
-   def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
         if dataset_name is not None:
             self.dataset_name = dataset_name
         else:
@@ -1156,6 +1156,7 @@ class Spell_Correction_Product(BaseDataset):
         self.private = private
         self.token = token
         self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
+        
     def preprocess_data(self, examples):
         return {"input_text": examples["corrupt_query"], "target_text": examples["clean_query"]}
     
