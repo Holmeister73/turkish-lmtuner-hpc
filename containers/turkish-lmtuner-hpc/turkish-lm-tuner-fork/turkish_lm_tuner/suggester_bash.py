@@ -15,7 +15,7 @@ if __name__ == "__main__":
     parser.add_argument("--hf_token_hub", help="""token for huggingface""",  default = None)
 
     parser.add_argument("--suggestions_repo_name", help = "Repo name for the suggestions",  default = None)
-    
+    args=parser.parse_args()
     misspelled_data = args.misspelled_dataset_name
     model_name = args.model_name
     hf_token = args.hf_token_hub
