@@ -21,7 +21,7 @@ def compute_scores_for_target(input_text, target_text, model, tokenizer):
     # the corresponding scores.
     encoded_src = tokenizer(input_text, max_length=1024, truncation=True, padding=True, return_tensors="pt", add_special_tokens=False).to(device)
     encoded_tgt = tokenizer(target_text, max_length=1024,  truncation=True, padding=True, return_tensors="pt", add_special_tokens=False).to(device)
-    print(encoded_tgt)
+    #print(encoded_tgt)
     output = model(
         input_ids=encoded_src["input_ids"],
         attention_mask=encoded_src["attention_mask"],
