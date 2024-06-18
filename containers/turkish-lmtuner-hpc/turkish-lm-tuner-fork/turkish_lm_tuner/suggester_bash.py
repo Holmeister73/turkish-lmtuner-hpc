@@ -31,7 +31,7 @@ if __name__ == "__main__":
     misspelled_words = load_dataset("Holmeister/"+misspelled_data, token = hf_token)
     misspelled_df = pd.DataFrame(misspelled_words["train"])
     misspellings = list(misspelled_df["misspellings"])
-    suggestions_df = pd.Dataframe(columns = ["misspellings", "suggestions", "probabilities", "token_counts"]
+    suggestions_df = pd.Dataframe(columns = ["misspellings", "suggestions", "probabilities", "token_counts"])
     suggestions = []
     probabilities = []
     token_counts = []
