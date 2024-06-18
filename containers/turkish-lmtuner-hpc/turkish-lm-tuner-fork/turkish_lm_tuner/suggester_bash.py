@@ -47,7 +47,6 @@ if __name__ == "__main__":
             num_beams=suggestion_amount*2,
             num_return_sequences = suggestion_amount,
             min_length=0,
-            max_length=20,
             max_new_tokens = 20,
             length_penalty=0,
             output_scores=True,
