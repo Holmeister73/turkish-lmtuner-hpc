@@ -35,7 +35,7 @@ if __name__ == "__main__":
     misspellings = list(misspelled_df["misspellings"])
     suggestions_df = pd.DataFrame(columns = ["misspellings", "suggestions", "probabilities", "token_counts"])
     suggestions = []
-    probabilities = []
+    probabilities_list = []
     token_counts = []
                                
     for source_text in misspellings:
@@ -65,11 +65,11 @@ if __name__ == "__main__":
           #print(tokenizer.convert_ids_to_tokens(sequence, skip_special_tokens = True))
           #print(f"Sequence: {decoded_prediction}, Score: {probability}")
           suggestions.append(decoded_prediction)
-          probabilities.append(probability.item())
+          probabilities_list.append(probability.item())
           token_counts.append(len(tokenized_predictions)+1) # +1 for eos token
 
     suggestions_df["misspellings"] = suggestion_amount * misspellings
-    suggestions_df["probabilities"] = probabilities
+    suggestions_df["probabilities"] = probabilities_list
     suggestions_df["token_counts"] = token_counts
     suggestions_df["suggestions"] = suggestions
     suggestions_hf = Dataset.from_pandas(suggestions_df)
