@@ -1143,14 +1143,37 @@ class TSATweetsGENDataset(BaseDataset):
             else:
                 return {"input_text": input_output_concatenator(examples["input"], examples["output"])}
 
-class Spell_Correction_Dataset(BaseDataset):
-    DATASET_NAME = "spell_correction"
-    DATASET_INFO = "Holmeister/spell_correction_data"
+class Spell_Correction_Product(BaseDataset):
+    DATASET_NAME = "spell_correction_product"
+    DATASET_INFO = "Holmeister/spell_correct_product_search"
     
     def __init__(self, dataset_name, private = False, token = None):
         super().__init__(dataset_name, private = private, token = token)
     def preprocess_data(self, examples):
-        return {"input_text": examples["corrupted_query"], "target_text": examples["clean_query"]}
+        return {"input_text": examples["corrupt_query"], "target_text": examples["clean_query"]}
+    
+    def load_dataset(self, split=None):
+        if type(self.dataset_info) == tuple:
+            if self.private == True:
+                return datasets.load_dataset(self.dataset_info[0], self.dataset_info[1], split=split, token = self.token)
+            else:
+                return datasets.load_dataset(self.dataset_info[0], self.dataset_info[1], split=split)
+        elif type(self.dataset_info) == str:
+            if self.private == True:
+                return datasets.load_dataset(self.dataset_info, split=split, token = self.token)
+            else:
+                return datasets.load_dataset(self.dataset_info, split=split)
+        else:
+            raise NotImplementedError
+            
+class Spell_Correction_General(BaseDataset):
+    DATASET_NAME = "spell_correction_general"
+    DATASET_INFO = "Holmeister/spell_correct_general_turkish"
+    
+    def __init__(self, dataset_name, private = False, token = None):
+        super().__init__(dataset_name, private = private, token = token)
+    def preprocess_data(self, examples):
+        return {"input_text": examples["corrupt_query"], "target_text": examples["clean_query"]}
     
     def load_dataset(self, split=None):
         if type(self.dataset_info) == tuple:
@@ -1495,7 +1518,8 @@ DATASET_MAPPING_NAMES = [
         ("TSATweets_gen_5_instruction", "TSATweetsGENDataset"),
         ("TSATweets_gen_1_instruction", "TSATweetsGENDataset"),
         ("TSATweets_gen_no_instruction", "TSATweetsGENDataset"),
-        ("spell_correction", "Spell_Correction_Dataset"),
+        ("spell_correction_product", "Spell_Correction_Product"),
+        ("spell_correction_general", "Spell_Correction_General"),
         ("ei_oc_anger", "EI_OC_ANGER_Dataset"),
         ("ei_oc_fear", "EI_OC_FEAR_Dataset"),
         ("ei_oc_joy", "EI_OC_JOY_Dataset"),
