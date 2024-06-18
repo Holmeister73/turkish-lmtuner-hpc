@@ -31,8 +31,10 @@ if __name__ == "__main__":
     misspelled_words = load_dataset("Holmeister/"+misspelled_data, token = hf_token)
     misspelled_df = pd.DataFrame(misspelled_words["train"])
     misspellings = list(misspelled_df["misspellings"])
-    suggestions_df = pd.Dataframe(columns = ["misspellings", "suggestions"]
+    suggestions_df = pd.Dataframe(columns = ["misspellings", "suggestions", "probabilities", "token_counts"]
     suggestions = []
+    probabilities = []
+    token_counts = []
                                
     for source_text in misspellings:
         source_ids = tokenizer(source_text, return_tensors="pt").input_ids.to(device)
@@ -44,6 +46,7 @@ if __name__ == "__main__":
             num_return_sequences = 10,
             min_length=0,
             max_length=20,
+            max_new_tokens = 20,
             length_penalty=0,
             output_scores=True,
             return_dict_in_generate=True,
@@ -56,11 +59,16 @@ if __name__ == "__main__":
         #print("Output:\n" + 100 * '-')
         for sequence, probability in zip(beam_outputs.sequences, probabilities):
           decoded_prediction = tokenizer.decode(sequence, skip_special_tokens=True)
+          tokenized_predictions = tokenizer.convert_ids_to_tokens(sequence, skip_special_tokens = True)
           #print(tokenizer.convert_ids_to_tokens(sequence, skip_special_tokens = True))
           #print(f"Sequence: {decoded_prediction}, Score: {probability}")
           suggestions.append(decoded_prediction)
+          probabilities.append(probability)
+          token_counts.append(len(tokenized_predictions)+1) # +1 for eos token
 
     suggestions_df["misspellings"] = 10 * misspellings
+    suggestions_df["probabilities"] = probabilities
+    suggestions_df["token_counts"] = token_counts
     suggestions_df["suggestions"] = suggestions
     suggestions_hf = Dataset.from_pandas(suggestions_df)
     suggestions_hf.push_to_hub(suggestions_repo, private = True, token = hf_token)
