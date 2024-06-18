@@ -36,11 +36,11 @@ if __name__ == "__main__":
     suggestions_df = pd.DataFrame(columns = ["misspellings", "suggestions", "probabilities", "token_counts"])
     suggestions = []
     probabilities_list = []
-    token_counts = []
-                               
+    token_counts = [] 
+    misspellings_list = []                    
     for source_text in misspellings:
         source_ids = tokenizer(source_text, return_tensors="pt").input_ids.to(device)
-    
+        misspellings_list.extend([source_text for i in range(suggestion_amount)])
         # generate the output using beam search
         beam_outputs = model.generate(
             inputs=source_ids,
@@ -67,7 +67,7 @@ if __name__ == "__main__":
           probabilities_list.append(probability.item())
           token_counts.append(len(tokenized_predictions)+1) # +1 for eos token
 
-    suggestions_df["misspellings"] = suggestion_amount * misspellings
+    suggestions_df["misspellings"] = misspellings_list
     suggestions_df["probabilities"] = probabilities_list
     suggestions_df["token_counts"] = token_counts
     suggestions_df["suggestions"] = suggestions
