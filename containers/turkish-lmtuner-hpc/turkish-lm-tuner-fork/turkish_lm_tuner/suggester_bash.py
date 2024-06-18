@@ -65,7 +65,7 @@ if __name__ == "__main__":
           #print(tokenizer.convert_ids_to_tokens(sequence, skip_special_tokens = True))
           #print(f"Sequence: {decoded_prediction}, Score: {probability}")
           suggestions.append(decoded_prediction)
-          probabilities.append(probability)
+          probabilities.append(probability.item())
           token_counts.append(len(tokenized_predictions)+1) # +1 for eos token
 
     suggestions_df["misspellings"] = suggestion_amount * misspellings
