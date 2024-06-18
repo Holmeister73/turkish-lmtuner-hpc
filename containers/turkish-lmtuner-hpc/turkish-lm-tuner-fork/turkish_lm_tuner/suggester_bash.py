@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     parser.add_argument("--suggestions_repo_name", help = "Repo name for the suggestions",  default = None)
 
-    parser.add_argument("--suggestion_amount", help = "k in the top-k suggestions", default = 10)
+    parser.add_argument("--suggestion_amount", help = "k in the top-k suggestions", type = int, default = 10)
     args=parser.parse_args()
     misspelled_data = args.misspelled_dataset_name
     model_name = args.model_name
