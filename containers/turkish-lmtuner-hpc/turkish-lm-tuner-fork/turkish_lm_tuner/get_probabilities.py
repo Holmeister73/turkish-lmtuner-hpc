@@ -91,10 +91,16 @@ if __name__ == "__main__":
         if misspelling != old_misspelling:
             old_misspelling = misspelling
             prompt = old_misspelling
-            scores, word_pieces = compute_target_scores(prompt, candidates, model, tokenizer)
-            probabilities.extend([score.item() for score in scores])
-            token_counts.extend([len(wordpiece) for wordpiece in word_pieces])
+            try:
+                scores, word_pieces = compute_target_scores(prompt, candidates, model, tokenizer)
+                probabilities.extend([score.item() for score in scores])
+                token_counts.extend([len(wordpiece) for wordpiece in word_pieces])
+            except:
+                print(prompt)
+                candidates = []
+                continue
             candidates = []
+            
 
     prompt = misspelling
     scores, word_pieces = compute_target_scores(prompt, candidates, model, tokenizer)
