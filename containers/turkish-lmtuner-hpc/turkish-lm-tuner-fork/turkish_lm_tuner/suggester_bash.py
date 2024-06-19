@@ -40,7 +40,7 @@ if __name__ == "__main__":
     token_counts = [] 
     misspellings_list = []   
     corrects_list = []
-    for source_text, correct in misspellings, corrects:
+    for source_text, correct in zip(misspellings, corrects):
         source_ids = tokenizer(source_text, return_tensors="pt").input_ids.to(device)
         misspellings_list.extend([source_text for i in range(suggestion_amount)])
         corrects_list.extend([correct for i in range(suggestion_amount)])
