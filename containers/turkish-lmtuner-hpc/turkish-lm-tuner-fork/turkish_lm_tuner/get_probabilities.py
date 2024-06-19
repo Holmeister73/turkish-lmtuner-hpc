@@ -78,13 +78,14 @@ if __name__ == "__main__":
     probabilities = []
     token_counts = []
     candidates = []
-    corrects = []
     old_misspelling = misspelled_and_candidate_df["misspellings"][0]
-    
+    counter = 0
     for row in misspelled_and_candidate_df.itertuples():
         misspelling = row[1]
         candidates.append(row[2])
-        corrects.append(row[3])
+        counter+=1
+        if(counter%500 == 0):
+            print(counter)
         if misspelling != old_misspelling:
             old_misspelling = misspelling
             prompt = old_misspelling
@@ -95,14 +96,14 @@ if __name__ == "__main__":
 
     prompt = misspelling
     scores, word_pieces = compute_target_scores(prompt, candidates, model, tokenizer)
-    probabilities.extend(scores)
+    probabilities.extend([score.item() for score in scores])
     token_counts.extend([len(wordpiece) for wordpiece in word_pieces])
     
     with_probabilities_df["misspellings"] = misspelled_and_candidate_df["misspellings"]
     with_probabilities_df["candidates"] = misspelled_and_candidate_df["candidates"]
     with_probabilities_df["probabilities"] = probabilities
     with_probabilities_df["token_counts"] = token_counts
-    with_probabilities_df["correct_versions"] = corrects
+    with_probabilities_df["correct_versions"] = misspelled_and_candidate_df["correct_versions"]
     with_probabilities_hf = Dataset.from_pandas(with_probabilities_df)
     with_probabilities_hf.push_to_hub(probabilities_repo, private = True, token = hf_token)
     
