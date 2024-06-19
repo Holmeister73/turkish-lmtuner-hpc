@@ -83,9 +83,11 @@ if __name__ == "__main__":
     for row in misspelled_and_candidate_df.itertuples():
         misspelling = row[1]
         candidates.append(row[2])
-        counter+=1
         if(counter%500 == 0):
             print(counter)
+          
+        counter+=1
+        
         if misspelling != old_misspelling:
             old_misspelling = misspelling
             prompt = old_misspelling
