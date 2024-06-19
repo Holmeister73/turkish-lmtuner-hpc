@@ -33,14 +33,17 @@ if __name__ == "__main__":
     misspelled_words = load_dataset("Holmeister/"+misspelled_data, token = hf_token)
     misspelled_df = pd.DataFrame(misspelled_words["train"])
     misspellings = list(misspelled_df["misspellings"])
-    suggestions_df = pd.DataFrame(columns = ["misspellings", "suggestions", "probabilities", "token_counts"])
+    corrects = list(misspelled_df["correct_versions"])
+    suggestions_df = pd.DataFrame(columns = ["misspellings", "suggestions", "correct_versions", "probabilities", "token_counts" ])
     suggestions = []
     probabilities_list = []
     token_counts = [] 
-    misspellings_list = []                    
-    for source_text in misspellings:
+    misspellings_list = []   
+    corrects_list = []
+    for source_text, correct in misspellings, corrects:
         source_ids = tokenizer(source_text, return_tensors="pt").input_ids.to(device)
         misspellings_list.extend([source_text for i in range(suggestion_amount)])
+        corrects_list.extend([correct for i in range(suggestion_amount)])
         # generate the output using beam search
         beam_outputs = model.generate(
             inputs=source_ids,
@@ -71,6 +74,7 @@ if __name__ == "__main__":
     suggestions_df["probabilities"] = probabilities_list
     suggestions_df["token_counts"] = token_counts
     suggestions_df["suggestions"] = suggestions
+    suggestions_df["correct_versions"] = corrects_list
     suggestions_hf = Dataset.from_pandas(suggestions_df)
     suggestions_hf.push_to_hub(suggestions_repo, private = True, token = hf_token)
     
