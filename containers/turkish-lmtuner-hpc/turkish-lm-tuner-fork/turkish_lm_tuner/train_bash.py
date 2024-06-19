@@ -65,6 +65,8 @@ if __name__ == "__main__":
     parser.add_argument("--private_data", help = """This flag should be used when the data is private, this flag doesn't take any more arguments,
        if this flag is there in the command it means private_data is set to true""", action = 'store_true')
 
+    parser.add_argument("--scheduler", help = """If this flag is present a linear scheduler with 0.1 warmup is used""", action = 'store_true')
+
     args=parser.parse_args()
     
     
@@ -93,6 +95,7 @@ if __name__ == "__main__":
     push_model_to_hub = args.push_model_to_hub
     hf_model_repo_name = args.hf_model_repo_name
     private = args.private_data
+    scheduler = args.scheduler
     if model_keyword == "TurkishBERTweet":
        TurkishBERTweet_preprocess = True
     else:
@@ -129,8 +132,8 @@ if __name__ == "__main__":
     optimizer_parameters = {"BERTURK": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "mT5": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
                             "mBART": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "TURNA": {'optimizer_type': 'adafactor', 'scheduler': False,"lr": 1e-3 },
                        "kanarya2b": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "kanarya750m": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 },
-                           "TurkishBERTweet": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "BERT": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 },
-                           "ROBERTA": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 } }
+                           "TurkishBERTweet": {'optimizer_type': 'adamw', 'scheduler': True,"lr": 2e-5 }, "BERT": {'optimizer_type': 'adamw', 'scheduler': scheduler,"lr": 2e-5 },
+                           "ROBERTA": {'optimizer_type': 'adamw', 'scheduler': scheduler,"lr": 2e-5 } }
     
     optimizer_params = optimizer_parameters[model_keyword]
     #BERT, gptj ve mBART modeller için 1e-5, 2e-5, 3e-5, 4e-5, 5e-5 ve linear scheduler with warmup, TURNA ve mt5 için 1e-3 ve no scheduler
@@ -161,7 +164,7 @@ if __name__ == "__main__":
     
     learning_rates = {"BERTURK": [1e-5, 2e-5, 4e-5] , "mT5": [5e-5, 1e-4, 2e-4], "mBART": [1e-5, 2e-5, 4e-5] , "TURNA": [5e-4, 1e-3, 2e-3],
                        "kanarya2b": [2e-5, 4e-5, 6e-5] , "kanarya750m": [2e-5, 4e-5, 6e-5], "TurkishBERTweet": [1e-5, 2e-5, 4e-5],
-                     "BERT": [1e-5, 2e-5, 4e-5], "ROBERTA": [1e-5, 2e-5, 4e-5]}
+                     "BERT": [2e-5, 3e-5, 4e-5, 5e-5], "ROBERTA": [2e-5, 3e-5, 4e-5, 5e-5]}
 
     if task_format == "classification":
         for i in range(1):  #normalde burası 3 olacak 3 run için
