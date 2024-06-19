@@ -74,8 +74,7 @@ if __name__ == "__main__":
     
     misspelled_and_candidate_words = load_dataset("Holmeister/"+misspelled_and_candidate_data, token = hf_token)
     misspelled_and_candidate_df = pd.DataFrame(misspelled_and_candidate_words["train"])
-    misspelled_and_candidate_df = misspelled_and_candidate_df[:500]
-    with_probabilities_df = pd.DataFrame(columns = ["misspellings", "candidates", "correct_version", "probabilities", "token_counts"])
+    with_probabilities_df = pd.DataFrame(columns = ["misspellings", "candidates", "correct_versions", "probabilities", "token_counts"])
     probabilities = []
     token_counts = []
     candidates = []
