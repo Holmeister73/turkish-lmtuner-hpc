@@ -48,7 +48,7 @@ def compute_target_scores(prompt: str, targets: list, model, tokenizer) -> tuple
         scores.append(score)
         word_pieces.append(word_piece)
       
-  return scores, word_pieces
+    return scores, word_pieces
 if __name__ == "__main__":
     parser=argparse.ArgumentParser()
     
