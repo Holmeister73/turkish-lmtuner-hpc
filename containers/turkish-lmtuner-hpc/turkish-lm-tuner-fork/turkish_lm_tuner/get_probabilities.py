@@ -79,7 +79,7 @@ if __name__ == "__main__":
     token_counts = []
     candidates = []
     corrects = []
-    old_misspelling = with_probabilities_df["misspellings"][0]
+    old_misspelling = misspelled_and_candidate_df["misspellings"][0]
     
     for row in misspelled_and_candidate_df.itertuples():
         misspelling = row[1]
