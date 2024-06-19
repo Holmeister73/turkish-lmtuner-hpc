@@ -109,10 +109,16 @@ class EvaluatorForClassification(BaseEvaluator):
         logger.info("Predictions: %s", preds[:5])
         logger.info("Labels: %s", labels[:5])
 
-        predictions = pd.DataFrame(
-            {'Prediction': preds,
-             'Label': labels
-            })
+        if self.task == "multi_label_classification":
+            predictions = pd.DataFrame(columns = ["Prediction", "Label"])
+            predictions["Prediction"] = preds
+            predictions["Label"] = labels
+        else:
+            
+            predictions = pd.DataFrame(
+                {'Prediction': preds,
+                 'Label': labels
+                })
 
         predictions.to_csv(os.path.join(self.test_params['output_dir'], 'predictions.csv'), index=False)
         logger.info("Result: %s", result)
