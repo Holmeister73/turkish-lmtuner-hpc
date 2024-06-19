@@ -11,6 +11,7 @@ import numpy as np
 import os
 import logging
 from datasets import Dataset
+import torch.nn as nn
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -19,6 +20,8 @@ formatter = logging.Formatter('%(levelname)s - %(asctime)s - %(name)s: %(message
 stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 
+def sigmoid(x):
+    return 1/(1+np.exp(-x))
 class BaseEvaluator:
     def __init__(self, model_path, tokenizer_path, task, test_params, postprocess_fn=None):
         self.model_path = model_path
@@ -84,8 +87,11 @@ class EvaluatorForClassification(BaseEvaluator):
         if self.task == "semantic_similarity":
             preds = preds.flatten()
 
-        elif self.task == "regression" or self.task == "multi_label_classification":
+        elif self.task == "regression": 
             preds = preds.flatten()
+
+        elif self.task == "multi_label_classification":
+            preds = np.heaviside(sigmoid(preds)-0.5, 1)
             
         else:
             if(isinstance(preds,tuple)):
@@ -111,8 +117,8 @@ class EvaluatorForClassification(BaseEvaluator):
 
         if self.task == "multi_label_classification":
             predictions = pd.DataFrame(columns = ["Prediction", "Label"])
-            predictions["Prediction"] = preds
-            predictions["Label"] = labels
+            predictions["Prediction"] = list(preds)
+            predictions["Label"] = list(labels)
         else:
             
             predictions = pd.DataFrame(
