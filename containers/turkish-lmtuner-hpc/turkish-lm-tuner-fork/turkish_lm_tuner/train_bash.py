@@ -221,7 +221,7 @@ if __name__ == "__main__":
                gc.collect()
             preds_df = pd.read_csv(os.path.join(training_params['output_dir'], 'predictions.csv'))
             predictions_hf = Dataset.from_pandas(preds_df)
-            predictions_hf.push_to_hub(pred_hf_repo_name+"-"+str(lr), private = True, token = hf_token)
+            predictions_hf.push_to_hub(pred_hf_repo_name, private = True, token = hf_token)
             #results_df = metrics_per_instruction(preds_df, inst_number = instruction_number, task = "sequence_classification")
             #results_df.to_csv(str(run_name)+"_"+str(lr)+"_results"+str(i)+".csv", index = False)
             
