@@ -45,7 +45,7 @@ if __name__ == "__main__":
     parser.add_argument("--num_train_epochs", help="""Maximum number of epochs for training""", type = int, default = 1)
     
     parser.add_argument("--early_stopping_patience", help="""Training will stop if the eval loss doesn't decrease in this amount of
-                        consecutive evaluation steps""", type = int, default = 3)
+                        consecutive evaluation steps""", type = int, default = -1)
     
     parser.add_argument("--per_device_train_batch_size", help="""per device batch size during training""", type = int, default = 8)
     
@@ -81,8 +81,8 @@ if __name__ == "__main__":
     model_keyword = args.model_keyword
     model_name = model_name_dict[model_keyword]
     
-    max_input_length = args.max_input_length  #128, 128, 80 for prod_reviews, offenseval, TSATweets according to 99th percentile and some rounding
-    max_target_length = args.max_target_length #10, 10, 10 for prod_reviews, offenseval, TSATweets
+    max_input_length = args.max_input_length  
+    max_target_length = args.max_target_length 
     instruction_number = args.instruction_amount
     run_name = model_keyword+"_"+dataset_name
     
@@ -162,10 +162,13 @@ if __name__ == "__main__":
     
       return results_df
     
-    learning_rates = {"BERTURK": [1e-5, 2e-5, 4e-5] , "mT5": [5e-5, 1e-4, 2e-4], "mBART": [1e-5, 2e-5, 4e-5] , "TURNA": [5e-4, 1e-3, 2e-3],
-                       "kanarya2b": [2e-5, 4e-5, 6e-5] , "kanarya750m": [2e-5, 4e-5, 6e-5], "TurkishBERTweet": [1e-5, 2e-5, 4e-5],
-                     "BERT": [2e-5, 3e-5, 4e-5, 5e-5], "ROBERTA": [2e-5, 3e-5, 4e-5, 5e-5]}
+    #learning_rates = {"BERTURK": [1e-5, 2e-5, 4e-5] , "mT5": [5e-5, 1e-4, 2e-4], "mBART": [1e-5, 2e-5, 4e-5] , "TURNA": [5e-4, 1e-3, 2e-3],
+    #                   "kanarya2b": [2e-5, 4e-5, 6e-5] , "kanarya750m": [2e-5, 4e-5, 6e-5], "TurkishBERTweet": [1e-5, 2e-5, 4e-5],
+    #                 "BERT": [2e-5, 3e-5, 4e-5, 5e-5], "ROBERTA": [2e-5, 3e-5, 4e-5, 5e-5]}
+    
+    learning_rates = {"BERTURK": [5e-5] , "mT5": [1e-3], "mBART": [5e-5] , "TURNA": [1e-3], "TurkishBERTweet": [5e-5]}
 
+    
     if task_format == "classification":
         for i in range(1):  #normalde burası 3 olacak 3 run için
           for lr in learning_rates[model_keyword]:  #normalde burada [1:2] olmayacak farklı learning rateler için
@@ -196,7 +199,7 @@ if __name__ == "__main__":
             
     elif task_format == "conditional_generation":
         for i in range(1):  #normalde burası 3 olacak 3 run için
-          for lr in learning_rates[model_keyword][1:2]:  #normalde burada [1:2] olmayacak farklı learning rateler için
+          for lr in learning_rates[model_keyword]:  #normalde burada [1:2] olmayacak farklı learning rateler için
             optimizer_params["lr"] = lr
             model_trainer = TrainerForConditionalGeneration(
               model_name=model_name, task=task,
@@ -224,7 +227,7 @@ if __name__ == "__main__":
             #results_df.to_csv(str(run_name)+"_"+str(lr)+"_results"+str(i)+".csv", index = False)
     elif task_format == "generation":
         for i in range(1):  #normalde burası 3 olacak 3 run için
-          for lr in learning_rates[model_keyword][1:2]:  #normalde burada [1:2] olmayacak farklı learning rateler için
+          for lr in learning_rates[model_keyword]:  #normalde burada [1:2] olmayacak farklı learning rateler için
             optimizer_params["lr"] = lr
             model_trainer = TrainerForGeneration(
               model_name=model_name, task=task,

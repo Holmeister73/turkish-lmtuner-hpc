@@ -163,7 +163,12 @@ class TrainerForConditionalGeneration(BaseModelTrainer):
         # make datasets smaller for debugging
         # train_dataset = train_dataset.select(range(3))
         # eval_dataset = eval_dataset.select(range(3))
-
+        
+        if early_stopping_patience == -1:
+            callbacks = []
+        else:
+            callbacks = [EarlyStoppingCallback(early_stopping_patience=early_stopping_patience)]
+            
         trainer = Seq2SeqTrainer(
             model=model,
             args=training_args,
@@ -171,7 +176,7 @@ class TrainerForConditionalGeneration(BaseModelTrainer):
             eval_dataset=eval_dataset,
             compute_metrics=self.evaluator.compute_metrics,
             optimizers=(optimizer, lr_scheduler),
-            callbacks = [EarlyStoppingCallback(early_stopping_patience=early_stopping_patience)]
+            callbacks = callbacks
         )
 
         trainer.train()
@@ -229,7 +234,12 @@ class TrainerForGeneration(BaseModelTrainer):
         # make datasets smaller for debugging
         # train_dataset = train_dataset.select(range(3))
         # eval_dataset = eval_dataset.select(range(3))
-
+        if early_stopping_patience == -1:
+            callbacks = []
+        
+        else:
+            callbacks = [EarlyStoppingCallback(early_stopping_patience=early_stopping_patience)]
+            
         trainer = Trainer(
             model=model,
             args=training_args,
@@ -238,7 +248,7 @@ class TrainerForGeneration(BaseModelTrainer):
             train_dataset=train_dataset,
             eval_dataset=eval_dataset,
             optimizers=(optimizer, lr_scheduler),
-            callbacks = [EarlyStoppingCallback(early_stopping_patience=early_stopping_patience)]
+            callbacks = callbacks
         )
 
         trainer.train()
@@ -324,7 +334,13 @@ class TrainerForClassification(BaseModelTrainer):
         else:
             logger.info("Using optimizers created based on training_arguments")
             optimizer, lr_scheduler = (None, None)
-
+        
+        if early_stopping_patience == -1:
+            callbacks = []
+        
+        else:
+            callbacks = [EarlyStoppingCallback(early_stopping_patience=early_stopping_patience)]
+            
         trainer = Trainer(
             model=model,
             args=training_args,
@@ -334,7 +350,7 @@ class TrainerForClassification(BaseModelTrainer):
             optimizers=(optimizer, lr_scheduler),
             tokenizer=tokenizer,
             data_collator=data_collator,
-            callbacks = [EarlyStoppingCallback(early_stopping_patience=early_stopping_patience)]
+            callbacks = callbacks
         )
         trainer.train()
         results = trainer.evaluate(test_dataset)
