@@ -81,16 +81,44 @@ if __name__ == "__main__":
     model_keyword = args.model_keyword
     model_name = model_name_dict[model_keyword]
     
-    max_input_length = args.max_input_length  
+    max_input_length = args.max_input_length   
+    #BERTURK için 512 ttc4900'de çünkü modelin maxı o, mT5 da öyle, mBART'ın maxı 1024, TurkishBERTweet de 512, TURNA da 512 
+    #o yüzden max input length 512 TTC için, MLSUM da 512 olacak (LLMler için 1024 verebilriz bu iki dataset için de)
+    #512 input length için TURNA ve mT5 batch size 32 oluyor, TURNA ve mT5 için 8
     max_target_length = args.max_target_length 
     instruction_number = args.instruction_amount
-    run_name = model_keyword+"_"+dataset_name
+    
+    model_numbers = {"TURNA": "11", "mT5": "12", "mBART": "13", "BERTURK": "14", "TurkishBERTweet": "15"}
+    
+    if dataset_name.startswith("ttc"):
+        dataset_number = 11
+    
+    elif dataset_name.startswith("offenseval"):
+        dataset_number = 12
+    
+    elif dataset_name.startswith("TSATweets"):
+        dataset_number = 13
+    
+    elif dataset_name.startswith("factcheck"):
+        dataset_number = 14
+    
+    elif dataset_name.startswith("mlsum"):
+        dataset_number = 15
+    
+    else: dataset_number = -1
+        
+    if task_format == "classification":
+        task_number = 0
+    
+    else:
+        task_number = 1
+    run_name = model_numbers[model_keyword]+"-"+str(dataset_number)+"-"+str(task_number)+"-2"
     
     
     
     early_stopping_patience = args.early_stopping_patience
     eval_per_epoch = args.eval_per_epoch
-    pred_hf_repo_name = "Holmeister/"+run_name+"_predictions"
+    pred_hf_repo_name = "Holmeister/"+run_name+"-preds"
     hf_token = args.hf_token_hub
     push_model_to_hub = args.push_model_to_hub
     hf_model_repo_name = args.hf_model_repo_name
