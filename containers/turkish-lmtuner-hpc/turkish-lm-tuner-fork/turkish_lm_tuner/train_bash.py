@@ -202,7 +202,7 @@ if __name__ == "__main__":
     #                 "BERT": [2e-5, 3e-5, 4e-5, 5e-5], "ROBERTA": [2e-5, 3e-5, 4e-5, 5e-5]}
     
     learning_rates_cls = {"BERTURK": [5e-5] , "mT5": [1e-3], "mBART": [5e-5] , "TURNA": [1e-3], "TurkishBERTweet": [5e-5]}
-    learning_rates_cond_gen = {"mT5": [1e-3], "mBART": [3e-5] , "TURNA": [1e-3],}
+    learning_rates_cond_gen = {"mT5": [1e-3], "mBART": [1e-4] , "TURNA": [1e-3]}
     
     if task_format == "classification":
         for i in range(1):  #normalde burası 3 olacak 3 run için

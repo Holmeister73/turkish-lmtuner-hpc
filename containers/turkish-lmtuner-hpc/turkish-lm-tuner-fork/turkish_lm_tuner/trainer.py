@@ -149,8 +149,8 @@ class TrainerForConditionalGeneration(BaseModelTrainer):
         generation_config = model.generation_config 
         generation_config.max_length = self.max_input_length
         generation_config.max_new_tokens = self.max_target_length
-        if self.model_name == "facebook/mbart-large-cc25":
-            generation_config.start_token_id = 250023
+        #if self.model_name == "facebook/mbart-large-cc25":
+        #    generation_config.start_token_id = 250023
         logger.info("Generation config: %s", generation_config)
 
         training_args = Seq2SeqTrainingArguments(
