@@ -201,12 +201,12 @@ if __name__ == "__main__":
     #                   "kanarya2b": [2e-5, 4e-5, 6e-5] , "kanarya750m": [2e-5, 4e-5, 6e-5], "TurkishBERTweet": [1e-5, 2e-5, 4e-5],
     #                 "BERT": [2e-5, 3e-5, 4e-5, 5e-5], "ROBERTA": [2e-5, 3e-5, 4e-5, 5e-5]}
     
-    learning_rates = {"BERTURK": [5e-5] , "mT5": [1e-3], "mBART": [5e-5] , "TURNA": [1e-3], "TurkishBERTweet": [5e-5]}
-
+    learning_rates_cls = {"BERTURK": [5e-5] , "mT5": [1e-3], "mBART": [5e-5] , "TURNA": [1e-3], "TurkishBERTweet": [5e-5]}
+    learning_rates_cond_gen = {"mT5": [1e-3], "mBART": [3e-5] , "TURNA": [1e-3],}
     
     if task_format == "classification":
         for i in range(1):  #normalde burası 3 olacak 3 run için
-          for lr in learning_rates[model_keyword]:  #normalde burada [1:2] olmayacak farklı learning rateler için
+          for lr in learning_rates_cls[model_keyword]:  #normalde burada [1:2] olmayacak farklı learning rateler için
             
             optimizer_params["lr"] = lr
             model_trainer = TrainerForClassification(
@@ -234,7 +234,7 @@ if __name__ == "__main__":
             
     elif task_format == "conditional_generation":
         for i in range(1):  #normalde burası 3 olacak 3 run için
-          for lr in learning_rates[model_keyword]:  #normalde burada [1:2] olmayacak farklı learning rateler için
+          for lr in learning_rates_cond_gen[model_keyword]:  #normalde burada [1:2] olmayacak farklı learning rateler için
             optimizer_params["lr"] = lr
             model_trainer = TrainerForConditionalGeneration(
               model_name=model_name, task=task,
@@ -262,7 +262,7 @@ if __name__ == "__main__":
             #results_df.to_csv(str(run_name)+"_"+str(lr)+"_results"+str(i)+".csv", index = False)
     elif task_format == "generation":
         for i in range(1):  #normalde burası 3 olacak 3 run için
-          for lr in learning_rates[model_keyword]:  #normalde burada [1:2] olmayacak farklı learning rateler için
+          for lr in learning_rates_cond_gen[model_keyword]:  #normalde burada [1:2] olmayacak farklı learning rateler için
             optimizer_params["lr"] = lr
             model_trainer = TrainerForGeneration(
               model_name=model_name, task=task,
