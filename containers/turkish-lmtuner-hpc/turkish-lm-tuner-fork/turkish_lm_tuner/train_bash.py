@@ -114,7 +114,14 @@ if __name__ == "__main__":
         task_number = 1
     run_name = model_numbers[model_keyword]+"-"+str(dataset_number)+"-"+str(task_number)+"-2"
     
+    if "no_instruction" in dataset_name:
+        run_name += "-1"
     
+    elif "single_instruction" in dataset_name:
+        run_name += "-2"
+    
+    elif "multi_instruction" in dataset_name:
+        run_name += "-3"
     
     early_stopping_patience = args.early_stopping_patience
     eval_per_epoch = args.eval_per_epoch

@@ -116,14 +116,14 @@ class EvaluatorForClassification(BaseEvaluator):
         logger.info("Labels: %s", labels[:5])
 
         if self.task == "multi_label_classification":
-            predictions = pd.DataFrame(columns = ["Prediction", "Label"])
-            predictions["Prediction"] = list(preds)
-            predictions["Label"] = list(labels)
+            predictions = pd.DataFrame(columns = ["prediction", "label"])
+            predictions["prediction"] = list(preds)
+            predictions["label"] = list(labels)
         else:
             
             predictions = pd.DataFrame(
-                {'Prediction': preds,
-                 'Label': labels
+                {'prediction': preds,
+                 'label': labels
                 })
 
         predictions.to_csv(os.path.join(self.test_params['output_dir'], 'predictions.csv'), index=False)
@@ -195,8 +195,8 @@ class EvaluatorForConditionalGeneration(BaseEvaluator):
         predictions = pd.DataFrame(
             {'DecodedPrediction': decoded_preds,
              'DecodedLabel': decoded_labels,
-             'Prediction': processed_preds,
-             'Label': processed_labels})
+             'prediction': processed_preds,
+             'label': processed_labels})
 
         predictions.to_csv(os.path.join(self.test_params['output_dir'], 'predictions.csv'), index=False)
         logger.info("Computing metrics")
