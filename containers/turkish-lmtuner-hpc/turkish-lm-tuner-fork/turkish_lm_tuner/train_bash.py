@@ -25,7 +25,7 @@ if __name__ == "__main__":
                         for validation and test split will be used for final evaluation""", type = str, default = "emotion_single")
                         
     parser.add_argument("--task", help="""Task to be done, it can be anything from: classification, multi_label_classification, summarization, paraphrasing, title_generation
-                        nli, semantic_similarity, ner, pos_tagging, question_answering and question_generation""", type = str, default = "classification")
+                        nli, semantic_similarity, ner, pos_tagging, question_answering, classification_by_generation, and question_generation""", type = str, default = "classification")
                         
     parser.add_argument("--task_format", help="""It can be either classification, conditional generation or generation""", type = str, default = "classification")
     
@@ -202,7 +202,7 @@ if __name__ == "__main__":
     #                 "BERT": [2e-5, 3e-5, 4e-5, 5e-5], "ROBERTA": [2e-5, 3e-5, 4e-5, 5e-5]}
     
     learning_rates_cls = {"BERTURK": [5e-5] , "mT5": [1e-3], "mBART": [5e-5] , "TURNA": [1e-3], "TurkishBERTweet": [5e-5]}
-    learning_rates_cond_gen = {"mT5": [1e-3], "mBART": [1e-5] , "TURNA": [1e-3]}
+    learning_rates_cond_gen = {"mT5": [1e-3], "mBART": [5e-5] , "TURNA": [1e-3]}
     
     if task_format == "classification":
         for i in range(1):  #normalde burası 3 olacak 3 run için
