@@ -1239,9 +1239,9 @@ class V_REG_Dataset(ClassificationDataset):
     def postprocess_data(self, examples):
         return examples
 
-class OffensevalCLSDataset(ClassificationDataset):
+class OffensEvalCLSDataset(ClassificationDataset):
     DATASET_NAME = "offenseval_cls_no_instruction"
-    DATASET_INFO = "Holmeister/offenseval_no_instruction"
+    DATASET_INFO = "Holmeister/TLT-OffensEval"
     IN_LABEL_DICT = {"evet": 1, "hayır": 0}
 
     def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
@@ -1250,14 +1250,7 @@ class OffensevalCLSDataset(ClassificationDataset):
         else:
             self.dataset_name = self.DATASET_NAME
         
-        if self.dataset_name == "offenseval_cls_5_instruction":
-            self.dataset_info = "Holmeister/offenseval_5_instruction"
-        elif self.dataset_name == "offenseval_cls_1_instruction":
-            self.dataset_info = "Holmeister/offenseval_1_instruction"
-        elif self.dataset_name == "offenseval_cls_no_instruction":
-            self.dataset_info = "Holmeister/offenseval_no_instruction"
-        else:
-            self.dataset_info = self.DATASET_INFO
+        self.dataset_info = self.DATASET_INFO
         self.private = private
         self.token = token
         self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
@@ -1266,70 +1259,46 @@ class OffensevalCLSDataset(ClassificationDataset):
         if skip_output_processing:
             output = [self.IN_LABEL_DICT[ex] for ex in examples["output"]]
             if self.TurkishBERTweet_preprocess == True:
-                if self.dataset_name == "offenseval_cls_5_instruction" or self.dataset_name == "offenseval_cls_1_instruction":
-                    return {"input_text": preprocess(examples["prompt"]), "label": output}
-                else:
-                    return {"input_text": preprocess(examples["input"]), "label": output}
+                return {"input_text": preprocess(examples["input"]), "label": output}
             else:
-                if self.dataset_name == "offenseval_cls_5_instruction" or self.dataset_name == "offenseval_cls_1_instruction":
-                    return {"input_text": examples["prompt"], "label": output}
-                else:
-                    return {"input_text": examples["input"], "label": output}
+                return {"input_text": examples["input"], "label": output}
         else:
             output = [ex for ex in examples["output"]]
             if self.TurkishBERTweet_preprocess == True:
-                if self.dataset_name == "offenseval_cls_5_instruction" or self.dataset_name == "offenseval_cls_1_instruction":
-                    return {"input_text": preprocess(examples["prompt"]), "target_text": output}
-                else:
-                    return {"input_text": preprocess(examples["input"]), "target_text": output}
+                return {"input_text": preprocess(examples["input"]), "target_text": output}
             else:
-                if self.dataset_name == "offenseval_cls_5_instruction" or self.dataset_name == "offenseval_cls_1_instruction":
-                    return {"input_text": examples["prompt"], "target_text": output}
-                else:
-                    return {"input_text": examples["input"], "target_text": output}
+               
+                return {"input_text": examples["input"], "target_text": output}
             
 
     def postprocess_data(self, examples):
         return examples
 
-class OffensevalCondGenDataset(BaseDataset):
+class OffensEvalCondGenDataset(BaseDataset):
     DATASET_NAME = "offenseval_cond_gen_no_instruction"
-    DATASET_INFO = "Holmeister/offenseval_no_instruction"
+    DATASET_INFO = "Holmeister/TLT-OffensEval"
 
     def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
         if dataset_name is not None:
             self.dataset_name = dataset_name
         else:
             self.dataset_name = self.DATASET_NAME
-        
-        if self.dataset_name == "offenseval_cond_gen_5_instruction":
-            self.dataset_info = "Holmeister/offenseval_5_instruction"
-        elif self.dataset_name == "offenseval_cond_gen_1_instruction":
-            self.dataset_info = "Holmeister/offenseval_1_instruction"
-        elif self.dataset_name == "offenseval_cond_gen_no_instruction":
-            self.dataset_info = "Holmeister/offenseval_no_instruction"
-        else:
-            self.dataset_info = self.DATASET_INFO
+
+        self.dataset_info = self.DATASET_INFO
         self.private = private
         self.token = token
         self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
         
     def preprocess_data(self, examples):
         if self.TurkishBERTweet_preprocess == True:
-            if self.dataset_name == "offenseval_cond_gen_5_instruction" or self.dataset_name == "offenseval_cond_gen_1_instruction":
-                return {"input_text": preprocess(examples["prompt"]), "target_text": examples["output"]}
-            else:
-                return {"input_text": preprocess(examples["input"]), "target_text": examples["output"]}
+            return {"input_text": preprocess(examples["input"]), "target_text": examples["output"]}
         else:
-            if self.dataset_name == "offenseval_cond_gen_5_instruction" or self.dataset_name == "offenseval_cond_gen_1_instruction":
-                return {"input_text": examples["prompt"], "target_text": examples["output"]}
-            else:
-                return {"input_text": examples["input"], "target_text": examples["output"]}
+            return {"input_text": examples["input"], "target_text": examples["output"]}
 
                 
 class TSATweetsCLSDataset(ClassificationDataset):
     DATASET_NAME = "TSATweets_cls_no_instruction"
-    DATASET_INFO = "Holmeister/TSATweets_no_instruction"
+    DATASET_INFO = "Holmeister/TLT-TSATweets"
     IN_LABEL_DICT = {"negatif": 0, "pozitif": 1, "nötr": 2}
 
     def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
@@ -1338,43 +1307,25 @@ class TSATweetsCLSDataset(ClassificationDataset):
         else:
             self.dataset_name = self.DATASET_NAME
         
-        if self.dataset_name == "TSATweets_cls_5_instruction":
-            self.dataset_info = "Holmeister/TSATweets_5_instruction"
-        elif self.dataset_name == "TSATweets_cls_1_instruction":
-            self.dataset_info = "Holmeister/TSATweets_1_instruction"
-        elif self.dataset_name == "TSATweets_cls_no_instruction":
-            self.dataset_info = "Holmeister/TSATweets_no_instruction"
-        else:
-            self.dataset_info = self.DATASET_INFO
+        self.dataset_info = self.DATASET_INFO
         self.private = private
         self.token = token
         self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
+        
     def preprocess_data(self, examples, skip_output_processing=False):
         # If used with the classification mode, don't process the output
         if skip_output_processing:
             output = [self.IN_LABEL_DICT[ex] for ex in examples["output"]]
             if self.TurkishBERTweet_preprocess == True:
-                if self.dataset_name == "TSATweets_cls_5_instruction" or self.dataset_name == "TSATweets_cls_1_instruction":
-                    return {"input_text": preprocess(examples["prompt"]), "label": output}
-                else:
-                    return {"input_text": preprocess(examples["input"]), "label": output}
+                return {"input_text": preprocess(examples["input"]), "label": output}
             else:
-                if self.dataset_name == "TSATweets_cls_5_instruction" or self.dataset_name == "TSATweets_cls_1_instruction":
-                    return {"input_text": examples["prompt"], "label": output}
-                else:
-                    return {"input_text": examples["input"], "label": output}
+                return {"input_text": examples["input"], "label": output}
         else:
             output = [ex for ex in examples["output"]]
             if self.TurkishBERTweet_preprocess == True:
-                if self.dataset_name == "TSATweets_cls_5_instruction" or self.dataset_name == "TSATweets_cls_1_instruction":
-                    return {"input_text": preprocess(examples["prompt"]), "target_text": output}
-                else:
-                    return {"input_text": preprocess(examples["input"]), "target_text": output}
+                return {"input_text": preprocess(examples["input"]), "label": output}
             else:
-                if self.dataset_name == "TSATweets_cls_5_instruction" or self.dataset_name == "TSATweets_cls_1_instruction":
-                    return {"input_text": examples["prompt"], "target_text": output}
-                else:
-                    return {"input_text": examples["input"], "target_text": output}
+                return {"input_text": examples["input"], "label": output}
 
     def postprocess_data(self, examples):
         return examples
@@ -1382,37 +1333,24 @@ class TSATweetsCLSDataset(ClassificationDataset):
 
 class TSATweetsCondGenDataset(BaseDataset):
     DATASET_NAME = "TSATweets_cond_gen_no_instruction"
-    DATASET_INFO = "Holmeister/TSATweets_no_instruction"
+    DATASET_INFO = "Holmeister/TLT-TSATweets"
 
     def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
         if dataset_name is not None:
             self.dataset_name = dataset_name
         else:
             self.dataset_name = self.DATASET_NAME
-        
-        if self.dataset_name == "TSATweets_cond_gen_5_instruction":
-            self.dataset_info = "Holmeister/TSATweets_5_instruction"
-        elif self.dataset_name == "TSATweets_cond_gen_1_instruction":
-            self.dataset_info = "Holmeister/TSATweets_1_instruction"
-        elif self.dataset_name == "TSATweets_cond_gen_no_instruction":
-            self.dataset_info = "Holmeister/TSATweets_no_instruction"
-        else:
-            self.dataset_info = self.DATASET_INFO
+            
+        self.dataset_info = self.DATASET_INFO
         self.private = private
         self.token = token
         self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
         
     def preprocess_data(self, examples):
         if self.TurkishBERTweet_preprocess == True:
-            if self.dataset_name == "TSATweets_cond_gen_5_instruction" or self.dataset_name == "TSATweets_cond_gen_1_instruction":
-                return {"input_text": preprocess(examples["prompt"]), "target_text": examples["output"]}
-            else:
-                return {"input_text": preprocess(examples["input"]), "target_text": examples["output"]}
+            return {"input_text": preprocess(examples["input"]), "target_text": examples["output"]}
         else:
-            if self.dataset_name == "TSATweets_cond_gen_5_instruction" or self.dataset_name == "TSATweets_cond_gen_1_instruction":
-                return {"input_text": examples["prompt"], "target_text": examples["output"]}
-            else:
-                return {"input_text": examples["input"], "target_text": examples["output"]}
+            return {"input_text": examples["input"], "target_text": examples["output"]}
 
 
 class TTC4900CLSDataset(ClassificationDataset):
@@ -1484,6 +1422,103 @@ class TTC4900CondGenDataset(BaseDataset):
             return {"input_text": examples["input"], "target_text": examples["output"]}
     
 
+class FactCheckCLSDataset(ClassificationDataset):
+    DATASET_NAME = "factcheck_cls_no_instruction"
+    DATASET_INFO = "Holmeister/TLT-FactCheck"
+    IN_LABEL_DICT = {"A": 0, "B": 1}
+
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+        
+        self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
+    def preprocess_data(self, examples, skip_output_processing=False):
+        # If used with the classification mode, don't process the output
+        if skip_output_processing:
+            output = [self.IN_LABEL_DICT[ex] for ex in examples["output"]]
+            if self.TurkishBERTweet_preprocess == True:
+                return {"input_text": preprocess(examples["input"]), "label": output}
+            else:
+                return {"input_text": examples["input"], "label": output}
+        else:
+            output = [ex for ex in examples["output"]]
+            if self.TurkishBERTweet_preprocess == True:
+                return {"input_text": preprocess(examples["input"]), "target_text": output}
+            else:
+               
+                return {"input_text": examples["input"], "target_text": output}
+            
+
+    def postprocess_data(self, examples):
+        return examples
+
+class FactCheckCondGenDataset(BaseDataset):
+    DATASET_NAME = "offenseval_cond_gen_no_instruction"
+    DATASET_INFO = "Holmeister/TLT-FactCheck"
+
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+
+        self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
+        
+    def preprocess_data(self, examples):
+        if self.TurkishBERTweet_preprocess == True:
+            return {"input_text": preprocess(examples["input"]), "target_text": examples["output"]}
+        else:
+            return {"input_text": examples["input"], "target_text": examples["output"]}
+        
+class MLSUMCondGenDataset(BaseDataset):
+    DATASET_NAME = "mlsum_cond_gen_no_instruction"
+    DATASET_INFO = "Holmeister/TLT-MLSUM"
+
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+
+        self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
+        
+    def preprocess_data(self, examples):
+        if self.TurkishBERTweet_preprocess == True:
+            return {"input_text": preprocess(examples["input"]), "target_text": examples["output"]}
+        else:
+            return {"input_text": examples["input"], "target_text": examples["output"]}
+        
+class TRNewsCondGenDataset(BaseDataset):
+    DATASET_NAME = "trnews_cond_gen_no_instruction"
+    DATASET_INFO = "Holmeister/TLT-TRNews"
+
+    def __init__(self, dataset_name=None, dataset_info=None, private = False, token = None, TurkishBERTweet_preprocess = False):
+        if dataset_name is not None:
+            self.dataset_name = dataset_name
+        else:
+            self.dataset_name = self.DATASET_NAME
+
+        self.dataset_info = self.DATASET_INFO
+        self.private = private
+        self.token = token
+        self.TurkishBERTweet_preprocess = TurkishBERTweet_preprocess
+        
+    def preprocess_data(self, examples):
+        if self.TurkishBERTweet_preprocess == True:
+            return {"input_text": preprocess(examples["input"]), "target_text": examples["output"]}
+        else:
+            return {"input_text": examples["input"], "target_text": examples["output"]}
 
 
 DATASET_MAPPING_NAMES = [
@@ -1521,17 +1556,9 @@ DATASET_MAPPING_NAMES = [
         ("product_reviews_gen_5_instruction", "ProductReviewsGENDataset"),
         ("product_reviews_gen_1_instruction", "ProductReviewsGENDataset"),
         ("product_reviews_gen_no_instruction", "ProductReviewsGENDataset"),
-        ("offenseval_cls_5_instruction", "OffensevalCLSDataset"),
-        ("offenseval_cls_1_instruction", "OffensevalCLSDataset"),
-        ("offenseval_cls_no_instruction", "OffensevalCLSDataset"),
-        ("offenseval_cond_gen_5_instruction", "OffensevalCondGenDataset"),
-        ("offenseval_cond_gen_1_instruction", "OffensevalCondGenDataset"),
-        ("offenseval_cond_gen_no_instruction", "OffensevalCondGenDataset"),
-        ("TSATweets_cls_5_instruction", "TSATweetsCLSDataset"),
-        ("TSATweets_cls_1_instruction", "TSATweetsCLSDataset"),
+        ("offenseval_cls_no_instruction", "OffensEvalCLSDataset"),
+        ("offenseval_cond_gen_no_instruction", "OffensEvalCondGenDataset"),
         ("TSATweets_cls_no_instruction", "TSATweetsCLSDataset"),
-        ("TSATweets_cond_gen_5_instruction", "TSATweetsCondGenDataset"),
-        ("TSATweets_cond_gen_1_instruction", "TSATweetsCondGenDataset"),
         ("TSATweets_cond_gen_no_instruction", "TSATweetsCondGenDataset"),
         ("ttc4900_cls_no_instruction", "TTC4900CLSDataset"),
         ("ttc4900_cls_single_instruction", "TTC4900CLSDataset"),
@@ -1539,6 +1566,10 @@ DATASET_MAPPING_NAMES = [
         ("ttc4900_cond_gen_no_instruction", "TTC4900CondGenDataset"),
         ("ttc4900_cond_gen_single_instruction", "TTC4900CondGenDataset"),
         ("ttc4900_cond_gen_multi_instruction", "TTC4900CondGenDataset"),
+        ("factcheck_cls_no_instruction", "FactCheckCLSDataset"),
+        ("factcheck_cond_gen_no_instruction", "FactCheckCondGenDataset"),
+        ("mlsum_cond_gen_no_instruction", "MLSUMCondGenDataset"),
+        ("trnews_cond_gen_no_instruction", "TRNewsCondGenDataset"),
         ("spell_correction_product", "Spell_Correction_Product"),
         ("spell_correction_general", "Spell_Correction_General"),
         ("ei_oc_anger", "EI_OC_ANGER_Dataset"),
