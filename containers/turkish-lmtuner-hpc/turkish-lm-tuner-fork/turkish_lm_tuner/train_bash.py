@@ -82,10 +82,12 @@ if __name__ == "__main__":
     model_name = model_name_dict[model_keyword]
     
     max_input_length = args.max_input_length   
+    #BERTURK, TurkishBERTweet, mBART için batch size 32 , TURNA ve mT5 için 8
     #BERTURK için 512 ttc4900'de çünkü modelin maxı o, mT5 da öyle, mBART'ın maxı 1024, TurkishBERTweet de 512, TURNA da 512 
-    #o yüzden max input length 512 TTC için, MLSUM da 512 olacak (LLMler için 1024 verebilriz bu iki dataset için de)
-    #512 input length için TURNA ve mT5 batch size 32 oluyor, TURNA ve mT5 için 8
+    #o yüzden max input length 512 olsun tüm datasetler için
+    #(LLMler için full 1024 kullanmak okay (instruction ve türkçe özel olmayan tokenizerları baz alarak))
     max_target_length = args.max_target_length 
+    #max_target mlsum için 128, trnews için 32 diğerleri için 10 
     instruction_number = args.instruction_amount
     
     model_numbers = {"TURNA": "11", "mT5": "12", "mBART": "13", "BERTURK": "14", "TurkishBERTweet": "15"}
